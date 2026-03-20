@@ -13,13 +13,20 @@
   "license": "ISC",
   "author": "saumya",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/kata.min.js",
+  "module": "dist/kata.js",
+  "exports": {
+    ".": "./dist/kata.min.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "esbuild src/kata.js --bundle --minify --outfile=dist/kata.js",
-    "build:min": "esbuild src/kata.js --bundle --minify --outfile=dist/kata.min.js"
+    "build": "esbuild src/index.js --bundle --outfile=dist/kata.js",
+    "build:min": "esbuild src/index.js --bundle --minify --outfile=dist/kata.min.js",
+    "prepublishOnly": "npm run build && npm run build:min"
   },
   "devDependencies": {
-    "esbuild": "^0.27.4",
-    "rollup": "^4.59.0"
+    "esbuild": "^0.27.4"
   }
 }

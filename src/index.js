@@ -23,3 +23,5 @@ function applyKataStyles() {
 }
 
 document.addEventListener("DOMContentLoaded", applyKataStyles);
+
+export { applyKataStyles };
