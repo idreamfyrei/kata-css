@@ -1,13 +1,19 @@
-
+// classMap.js
+// Scale: i * 0.25rem — so kata-p-4 = 1rem, kata-p-1 = 0.25rem
+// Max scale: 96 (= 24rem / 384px)
 
 export const classMap = {};
 
+// ─────────────────────────────────────────
+// SPACING SCALE
+// ─────────────────────────────────────────
 const scale = {};
+const spacing = 0.25;
 for (let i = 0; i <= 96; i++) {
-  scale[i] = `${i * 0.25}rem`;
+  scale[i] = `${i * spacing}rem`;
 }
 
-// PADDING
+//#region Padding
 
 for (const [k, v] of Object.entries(scale)) {
   classMap[`kata-p-${k}`] = `padding: ${v};`;
@@ -18,9 +24,10 @@ for (const [k, v] of Object.entries(scale)) {
   classMap[`kata-px-${k}`] = `padding-left: ${v}; padding-right: ${v};`;
   classMap[`kata-py-${k}`] = `padding-top: ${v}; padding-bottom: ${v};`;
 }
+//#endregion
 
 
-// MARGIN
+//#region margin
 
 for (const [k, v] of Object.entries(scale)) {
   classMap[`kata-m-${k}`] = `margin: ${v};`;
@@ -38,8 +45,10 @@ classMap["kata-ml-auto"] = "margin-left: auto;";
 classMap["kata-mr-auto"] = "margin-right: auto;";
 classMap["kata-mt-auto"] = "margin-top: auto;";
 classMap["kata-mb-auto"] = "margin-bottom: auto;";
+//#endregion
 
-// WIDTH
+
+//#region width
 
 for (const [k, v] of Object.entries(scale)) {
   classMap[`kata-w-${k}`] = `width: ${v};`;
@@ -51,9 +60,10 @@ classMap["kata-w-screen"] = "width: 100vw;";
 classMap["kata-w-min"] = "width: min-content;";
 classMap["kata-w-max"] = "width: max-content;";
 classMap["kata-w-fit"] = "width: fit-content;";
+//#endregion
 
 
-// HEIGHT
+//#region height
 
 for (const [k, v] of Object.entries(scale)) {
   classMap[`kata-h-${k}`] = `height: ${v};`;
@@ -65,37 +75,17 @@ classMap["kata-h-screen"] = "height: 100vh;";
 classMap["kata-h-min"] = "height: min-content;";
 classMap["kata-h-max"] = "height: max-content;";
 classMap["kata-h-fit"] = "height: fit-content;";
+//#endregion
 
 
-// MIN / MAX WIDTH & HEIGHT
-
-classMap["kata-min-w-0"] = "min-width: 0;";
-classMap["kata-min-w-full"] = "min-width: 100%;";
-classMap["kata-min-w-screen"] = "min-width: 100vw;";
-classMap["kata-max-w-full"] = "max-width: 100%;";
-classMap["kata-max-w-screen"] = "max-width: 100vw;";
-classMap["kata-max-w-sm"] = "max-width: 24rem;";
-classMap["kata-max-w-md"] = "max-width: 28rem;";
-classMap["kata-max-w-lg"] = "max-width: 32rem;";
-classMap["kata-max-w-xl"] = "max-width: 36rem;";
-classMap["kata-max-w-2xl"] = "max-width: 42rem;";
-classMap["kata-max-w-3xl"] = "max-width: 48rem;";
-classMap["kata-max-w-4xl"] = "max-width: 56rem;";
-classMap["kata-max-w-none"] = "max-width: none;";
-classMap["kata-min-h-0"] = "min-height: 0;";
-classMap["kata-min-h-full"] = "min-height: 100%;";
-classMap["kata-min-h-screen"] = "min-height: 100vh;";
-classMap["kata-max-h-full"] = "max-height: 100%;";
-classMap["kata-max-h-screen"] = "max-height: 100vh;";
-
-
-// BOX SIZING
+//#region box sizing
 
 classMap["kata-box-border"] = "box-sizing: border-box;";
 classMap["kata-box-content"] = "box-sizing: content-box;";
+//#endregion
 
 
-// DISPLAY
+//#region display
 
 classMap["kata-block"] = "display: block;";
 classMap["kata-inline"] = "display: inline;";
@@ -106,10 +96,34 @@ classMap["kata-grid"] = "display: grid;";
 classMap["kata-inline-grid"] = "display: inline-grid;";
 classMap["kata-hidden"] = "display: none;";
 classMap["kata-contents"] = "display: contents;";
+//#endregion
+
+
+//#region flex
+
+classMap["kata-flex-row"] = "flex-direction: row;";
+classMap["kata-flex-row-reverse"] = "flex-direction: row-reverse;";
+classMap["kata-flex-col"] = "flex-direction: column;";
+classMap["kata-flex-col-reverse"] = "flex-direction: column-reverse;";
+classMap["kata-flex-wrap"] = "flex-wrap: wrap;";
+classMap["kata-flex-wrap-reverse"] = "flex-wrap: wrap-reverse;";
+classMap["kata-flex-nowrap"] = "flex-wrap: nowrap;";
+classMap["kata-justify-start"] = "justify-content: flex-start;";
+classMap["kata-justify-end"] = "justify-content: flex-end;";
+classMap["kata-justify-center"] = "justify-content: center;";
+classMap["kata-justify-between"] = "justify-content: space-between;";
+classMap["kata-justify-around"] = "justify-content: space-around;";
+classMap["kata-justify-evenly"] = "justify-content: space-evenly;";
+classMap["kata-items-start"] = "align-items: flex-start;";
+classMap["kata-items-end"] = "align-items: flex-end;";
+classMap["kata-items-center"] = "align-items: center;";
+classMap["kata-items-baseline"] = "align-items: baseline;";
+classMap["kata-items-stretch"] = "align-items: stretch;";
+//#endregion
 
 
 
-// POSITION
+//#region position
 
 classMap["kata-static"] = "position: static;";
 classMap["kata-relative"] = "position: relative;";
@@ -130,29 +144,28 @@ classMap["kata-left-auto"] = "left: auto;";
 classMap["kata-inset-0"] = "top: 0; right: 0; bottom: 0; left: 0;";
 classMap["kata-inset-auto"] =
   "top: auto; right: auto; bottom: auto; left: auto;";
+//#endregion
 
 
-// Z-INDEX
+//#region z-index
 
 for (let i = 0; i <= 96; i++) {
   classMap[`kata-z-${i}`] = `z-index: ${i};`;
 }
 classMap["kata-z-auto"] = "z-index: auto;";
+//#endregion
 
 
+//#region font-family
 
-// ─────────────────────────────────────────
-// FONT FAMILY
-// ─────────────────────────────────────────
 classMap["kata-font-sans"] =
   "font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;";
 classMap["kata-font-serif"] = "font-family: ui-serif, Georgia, Cambria, serif;";
 classMap["kata-font-mono"] =
   "font-family: ui-monospace, 'Cascadia Code', 'Courier New', monospace;";
+//#endregion
 
-
-// FONT SIZE
-
+//#region font size
 classMap["kata-text-xs"] = "font-size: 0.75rem; line-height: 1rem;";
 classMap["kata-text-sm"] = "font-size: 0.875rem; line-height: 1.25rem;";
 classMap["kata-text-base"] = "font-size: 1rem; line-height: 1.5rem;";
@@ -164,8 +177,10 @@ classMap["kata-text-4xl"] = "font-size: 2.25rem; line-height: 2.5rem;";
 classMap["kata-text-5xl"] = "font-size: 3rem; line-height: 1;";
 classMap["kata-text-6xl"] = "font-size: 3.75rem; line-height: 1;";
 
+//#endregion
 
-// FONT WEIGHT
+//#region font-weight
+
 classMap["kata-font-thin"] = "font-weight: 100;";
 classMap["kata-font-extralight"] = "font-weight: 200;";
 classMap["kata-font-light"] = "font-weight: 300;";
@@ -175,18 +190,27 @@ classMap["kata-font-semibold"] = "font-weight: 600;";
 classMap["kata-font-bold"] = "font-weight: 700;";
 classMap["kata-font-extrabold"] = "font-weight: 800;";
 classMap["kata-font-black"] = "font-weight: 900;";
+//#endregion
 
 
-// FONT STYLE
+//#region font-style
 
 classMap["kata-italic"] = "font-style: italic;";
 classMap["kata-not-italic"] = "font-style: normal;";
 
+//#endregion
 
+//#region text-align
 
+classMap["kata-text-left"] = "text-align: left;";
+classMap["kata-text-center"] = "text-align: center;";
+classMap["kata-text-right"] = "text-align: right;";
+classMap["kata-text-justify"] = "text-align: justify;";
+classMap["kata-text-start"] = "text-align: start;";
+classMap["kata-text-end"] = "text-align: end;";
+//#endregion
 
-
-// TEXT DECORATION
+//#region text decoration
 
 classMap["kata-underline"] = "text-decoration-line: underline;";
 classMap["kata-overline"] = "text-decoration-line: overline;";
@@ -197,14 +221,11 @@ classMap["kata-decoration-dashed"] = "text-decoration-style: dashed;";
 classMap["kata-decoration-dotted"] = "text-decoration-style: dotted;";
 classMap["kata-decoration-double"] = "text-decoration-style: double;";
 classMap["kata-decoration-wavy"] = "text-decoration-style: wavy;";
-for (const [k, v] of Object.entries(scale)) {
-  classMap[`kata-decoration-${k}`] = `text-decoration-thickness: ${v};`;
-  classMap[`kata-underline-offset-${k}`] = `text-underline-offset: ${v};`;
-}
+//#endregion
 
 
 
-// LINE HEIGHT
+//#region line-height
 
 classMap["kata-leading-none"] = "line-height: 1;";
 classMap["kata-leading-tight"] = "line-height: 1.25;";
@@ -212,9 +233,10 @@ classMap["kata-leading-snug"] = "line-height: 1.375;";
 classMap["kata-leading-normal"] = "line-height: 1.5;";
 classMap["kata-leading-relaxed"] = "line-height: 1.625;";
 classMap["kata-leading-loose"] = "line-height: 2;";
+//#endregion
 
 
-// LETTER SPACING
+//#region letter-spacing
 
 classMap["kata-tracking-tighter"] = "letter-spacing: -0.05em;";
 classMap["kata-tracking-tight"] = "letter-spacing: -0.025em;";
@@ -222,9 +244,10 @@ classMap["kata-tracking-normal"] = "letter-spacing: 0em;";
 classMap["kata-tracking-wide"] = "letter-spacing: 0.025em;";
 classMap["kata-tracking-wider"] = "letter-spacing: 0.05em;";
 classMap["kata-tracking-widest"] = "letter-spacing: 0.1em;";
+//#endregion
 
 
-// COLORS — text, background, border
+//#region color
 
 const colors = {
   black: "#000000",
@@ -286,18 +309,23 @@ for (const [k, v] of Object.entries(colors)) {
   classMap[`kata-bg-${k}`] = `background-color: ${v};`;
   classMap[`kata-border-${k}`] = `border-color: ${v};`;
 }
+//#endregion
 
 
-// OPACITY
+//#region bg options
 
-for (const o of [0, 5, 10, 20, 25, 30, 40, 50, 60, 70, 75, 80, 90, 95, 100]) {
-  classMap[`kata-opacity-${o}`] = `opacity: ${o / 100};`;
-}
+classMap["kata-bg-none"] = "background: none;";
+classMap["kata-bg-cover"] = "background-size: cover;";
+classMap["kata-bg-contain"] = "background-size: contain;";
+classMap["kata-bg-center"] = "background-position: center;";
+classMap["kata-bg-top"] = "background-position: top;";
+classMap["kata-bg-bottom"] = "background-position: bottom;";
+classMap["kata-bg-no-repeat"] = "background-repeat: no-repeat;";
+classMap["kata-bg-repeat"] = "background-repeat: repeat;";
 
+//#endregion
 
-
-
-// BORDER
+//#region border
 
 classMap["kata-border-0"] = "border-width: 0;";
 classMap["kata-border"] = "border-width: 1px;";
@@ -313,9 +341,10 @@ classMap["kata-border-dashed"] = "border-style: dashed;";
 classMap["kata-border-dotted"] = "border-style: dotted;";
 classMap["kata-border-double"] = "border-style: double;";
 classMap["kata-border-none"] = "border-style: none;";
+//#endregion
 
 
-// BORDER RADIUS
+//#region border-radius
 
 classMap["kata-rounded-none"] = "border-radius: 0;";
 classMap["kata-rounded-sm"] = "border-radius: 0.125rem;";
@@ -330,27 +359,10 @@ for (const [k, v] of Object.entries(scale)) {
   classMap[`kata-rounded-${k}`] = `border-radius: ${v};`;
 }
 
-
-// BOX SHADOW
-
-classMap["kata-shadow-none"] = "box-shadow: none;";
-classMap["kata-shadow-xs"] = "box-shadow: 0 1px 2px rgba(0,0,0,0.05);";
-classMap["kata-shadow-sm"] =
-  "box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);";
-classMap["kata-shadow"] =
-  "box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);";
-classMap["kata-shadow-md"] =
-  "box-shadow: 0 6px 10px -2px rgba(0,0,0,0.1), 0 3px 6px -2px rgba(0,0,0,0.05);";
-classMap["kata-shadow-lg"] =
-  "box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);";
-classMap["kata-shadow-xl"] =
-  "box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);";
-classMap["kata-shadow-2xl"] = "box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);";
-classMap["kata-shadow-inner"] = "box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);";
+//#endregion
 
 
-// CURSOR
-
+//#region cursor
 classMap["kata-cursor-auto"] = "cursor: auto;";
 classMap["kata-cursor-default"] = "cursor: default;";
 classMap["kata-cursor-pointer"] = "cursor: pointer;";
@@ -359,42 +371,19 @@ classMap["kata-cursor-text"] = "cursor: text;";
 classMap["kata-cursor-move"] = "cursor: move;";
 classMap["kata-cursor-not-allowed"] = "cursor: not-allowed;";
 classMap["kata-cursor-grab"] = "cursor: grab;";
+//#endregion
 
 
-// POINTER EVENTS / USER SELECT
-
-classMap["kata-pointer-none"] = "pointer-events: none;";
-classMap["kata-pointer-auto"] = "pointer-events: auto;";
-classMap["kata-select-none"] = "user-select: none;";
-classMap["kata-select-text"] = "user-select: text;";
-classMap["kata-select-all"] = "user-select: all;";
-classMap["kata-select-auto"] = "user-select: auto;";
-
-
-// VISIBILITY
-
+//#region visibility
 classMap["kata-visible"] = "visibility: visible;";
 classMap["kata-invisible"] = "visibility: hidden;";
+//#endregion
 
-// ─────────────────────────────────────────
-// TRANSITION
-// ─────────────────────────────────────────
-classMap["kata-transition"] = "transition: all 150ms ease;";
-classMap["kata-transition-colors"] =
-  "transition: color, background-color, border-color 150ms ease;";
-classMap["kata-transition-none"] = "transition: none;";
-classMap["kata-duration-75"] = "transition-duration: 75ms;";
-classMap["kata-duration-100"] = "transition-duration: 100ms;";
-classMap["kata-duration-150"] = "transition-duration: 150ms;";
-classMap["kata-duration-200"] = "transition-duration: 200ms;";
-classMap["kata-duration-300"] = "transition-duration: 300ms;";
-classMap["kata-duration-500"] = "transition-duration: 500ms;";
-classMap["kata-duration-700"] = "transition-duration: 700ms;";
-classMap["kata-duration-1000"] = "transition-duration: 1000ms;";
+
+
 
 // ═════════════════════════════════════════
 // CHAICODE EXCLUSIVE — kata-chai-* prefix
-// All teas (Indian subcontinent + world)
 // used as: kata-text-*, kata-bg-*, kata-border-*
 // ═════════════════════════════════════════
 const chaiColors = {
