@@ -4,9 +4,7 @@
 
 export const classMap = {};
 
-// ─────────────────────────────────────────
-// SPACING SCALE
-// ─────────────────────────────────────────
+// spacing scale
 const scale = {};
 const spacing = 0.25;
 for (let i = 0; i <= 96; i++) {
