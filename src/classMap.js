@@ -122,6 +122,14 @@ classMap["kata-items-stretch"] = "align-items: stretch;";
 //#endregion
 
 
+//#region gap
+for (const [k, v] of Object.entries(scale)) {
+  classMap[`kata-gap-${k}`] = `gap: ${v};`;
+  classMap[`kata-gap-x-${k}`] = `column-gap: ${v};`;
+  classMap[`kata-gap-y-${k}`] = `row-gap: ${v};`;
+}
+//#endregion
+
 
 //#region position
 
@@ -382,12 +390,10 @@ classMap["kata-invisible"] = "visibility: hidden;";
 
 
 
-// ═════════════════════════════════════════
-// CHAICODE EXCLUSIVE — kata-chai-* prefix
-// used as: kata-text-*, kata-bg-*, kata-border-*
-// ═════════════════════════════════════════
+//#region chai-exclusive
+
 const chaiColors = {
-  // ── Indian subcontinent (classic chais) ──
+  
   "kata-chai-masala": "#8B4A2E", // classic spiced milk tea — deep reddish-brown
   "kata-chai-karak": "#C27B3E", // Gulf-style strong chai — amber-caramel
   "kata-chai-kashmiri": "#D4697A", // pink salt tea — dusty rose
@@ -466,3 +472,5 @@ for (const [k, v] of Object.entries(chaiColors)) {
   classMap[`kata-bg-${k}`] = `background-color: ${v};`;
   classMap[`kata-border-${k}`] = `border-color: ${v};`;
 }
+//#endregion
+
