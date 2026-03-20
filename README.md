@@ -19,11 +19,14 @@ The spacing scale is `i × 0.25rem` — so `kata-p-4` is `1rem`, same as Tailwin
 ### CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/kata-css/dist/kata.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js"></script>
 ```
 Drop the script tag and start using styling by typing `kata-` followed by style
 
 ### npm
+
+[![npm version](https://img.shields.io/npm/v/kata-css)](https://www.npmjs.com/package/kata-css)
+[![npm downloads](https://img.shields.io/npm/dw/kata-css)](https://www.npmjs.com/package/kata-css)
 
 ```bash
 npm install kata-css
@@ -68,7 +71,7 @@ If you write a class that doesn't exist in the map, KataCSS tells you:
 <!DOCTYPE html>
 <html>
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/kata-css/dist/kata.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js"></script>
 </head>
 <body>
 
