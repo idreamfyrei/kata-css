@@ -1,0 +1,878 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KataCSS — Style Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet"/>
+    <style>
+      :root {
+        --bg: #f3ead6;
+        --bg2: #ece3ca;
+        --bg3: #e4dbbf;
+        --ink: #10100e;
+        --ink2: #2a2a26;
+        --ink3: #6b6b5e;
+        --ink4: #9a9a88;
+        --red: #d94f3d;
+        --b: 1px solid #10100e;
+        --bl: 1px solid rgba(16,16,14,0.15);
+        --fh: "Satoshi","Helvetica Neue",sans-serif;
+        --fm: "IBM Plex Mono",monospace;
+      }
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; }
+      body { background: var(--bg); color: var(--ink); font-family: var(--fh); line-height: 1.4; overflow-x: hidden; }
+
+      /* ── NAVBAR ── */
+      .navbar {
+        position: sticky; top: 0; z-index: 100;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 0 2.5rem; height: 56px;
+        background: var(--bg); border-bottom: var(--b);
+      }
+      .navbar-logo {
+        font-family: var(--fh); font-size: 2.3rem; font-weight: 900;
+        letter-spacing: -0.05em; color: var(--ink); text-decoration: none;
+      }
+      .navbar-logo span { color: var(--red); }
+      .navbar-links { display: flex; gap: 2rem; list-style: none; }
+      .navbar-links a {
+        font-family: var(--fm); font-size: 0.68rem; text-transform: uppercase;
+        letter-spacing: 0.12em; color: var(--ink3); text-decoration: none;
+        transition: color 0.15s;
+      }
+      .navbar-links a:hover { color: var(--red); }
+
+      /* ── HERO HEADER ── */
+      .page-header {
+        padding: 4rem 2.5rem 3rem;
+        border-bottom: var(--b);
+        display: flex; flex-direction: column; gap: 0.5rem;
+      }
+      .page-header-tag {
+        font-family: var(--fm); font-size: 0.62rem; text-transform: uppercase;
+        letter-spacing: 0.2em; color: var(--red);
+      }
+      .page-header-title {
+        font-family: var(--fh); font-size: clamp(2.5rem, 5vw, 5rem);
+        font-weight: 900; letter-spacing: -0.05em; line-height: 0.95;
+        color: var(--ink);
+      }
+      .page-header-sub {
+        font-family: var(--fm); font-size: 0.78rem; color: var(--ink3);
+        margin-top: 0.75rem;
+      }
+
+      /* ── SECTION LABEL ── */
+      .sec-label {
+        font-family: var(--fm); font-size: 0.6rem; font-weight: 500;
+        text-transform: uppercase; letter-spacing: 0.18em; color: var(--ink3);
+        padding: 0.7rem 2.5rem; border-bottom: var(--b); border-top: var(--b);
+        background: var(--bg2); display: flex; align-items: center; gap: 1rem;
+      }
+      .sec-label::after { content: ""; flex: 1; height: 1px; background: var(--bl); }
+
+      /* ── DEMO SECTION WRAPPER ── */
+      .demo-section {
+        padding: 2.5rem; border-bottom: var(--b);
+      }
+      .demo-section-title {
+        font-family: var(--fh); font-size: 1rem; font-weight: 700;
+        letter-spacing: -0.02em; margin-bottom: 0.35rem; color: var(--ink);
+      }
+      .demo-section-desc {
+        font-family: var(--fm); font-size: 0.68rem; color: var(--ink3);
+        margin-bottom: 1.75rem; line-height: 1.6;
+      }
+
+      /* demo canvas */
+      .demo-canvas {
+        background: var(--bg3); border: var(--b); padding: 2rem;
+        display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start;
+      }
+      .demo-canvas.dark { background: var(--ink); }
+      .demo-canvas.col { flex-direction: column; }
+      .demo-canvas.center { align-items: center; justify-content: center; }
+
+      /* code snippet row */
+      .code-row {
+        margin-top: 0.85rem; background: var(--ink); padding: 0.8rem 1rem;
+        font-family: var(--fm); font-size: 0.7rem; color: rgba(243,234,214,0.6);
+        border-left: 3px solid var(--red); overflow-x: auto; white-space: nowrap;
+      }
+      .code-row .kw { color: var(--bg); }
+      .code-row .cls { color: #8db87a; }
+
+      /* color swatch grid */
+      .swatch-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0;
+      }
+      .swatch {
+        height: 72px; display: flex; align-items: flex-end; padding: 0.5rem;
+        border: var(--b);
+      }
+      .swatch-label {
+        font-family: var(--fm); font-size: 0.52rem; text-transform: uppercase;
+        letter-spacing: 0.06em; line-height: 1.3;
+        mix-blend-mode: difference; color: white; pointer-events: none;
+      }
+
+      /* chai swatch grid */
+      .chai-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+        gap: 0; border: var(--b);
+      }
+      .chai-swatch {
+        height: 60px; display: flex; flex-direction: column;
+        align-items: flex-start; justify-content: flex-end;
+        padding: 0.4rem 0.5rem; border: var(--b);
+      }
+      .chai-swatch-name {
+        font-family: var(--fm); font-size: 0.5rem; text-transform: uppercase;
+        letter-spacing: 0.04em; line-height: 1.2;
+        mix-blend-mode: difference; color: white;
+      }
+
+      /* spacing visual */
+      .spacing-demo { display: flex; align-items: flex-end; gap: 0.5rem; flex-wrap: wrap; }
+      .spacing-box {
+        background: var(--red); opacity: 0.8; min-width: 8px; min-height: 8px;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .spacing-label { font-family: var(--fm); font-size: 0.6rem; color: var(--ink3); display: block; margin-top: 0.25rem; text-align: center; }
+
+      /* typography demo */
+      .typo-block { border-bottom: var(--bl); padding-bottom: 1rem; width: 100%; }
+      .typo-block:last-child { border-bottom: none; padding-bottom: 0; }
+
+      /* flex demo */
+      .flex-box {
+        background: var(--bg); border: var(--b); padding: 0.5rem 0.9rem;
+        font-family: var(--fm); font-size: 0.68rem; color: var(--ink2);
+      }
+      .flex-container {
+        background: rgba(217,79,61,0.08); border: 1px dashed rgba(217,79,61,0.4);
+        padding: 0.5rem; width: 100%;
+      }
+
+      /* border demo */
+      .border-demo-box {
+        width: 72px; height: 72px; display: flex; align-items: center; justify-content: center;
+        font-family: var(--fm); font-size: 0.58rem; color: var(--ink3); text-align: center;
+        background: var(--bg);
+      }
+
+      /* badge pill */
+      .pill {
+        display: inline-block; padding: 0.25rem 0.75rem;
+        font-family: var(--fm); font-size: 0.62rem; letter-spacing: 0.06em;
+      }
+
+      /* position demo */
+      .pos-parent { position: relative; width: 180px; height: 100px; background: var(--bg2); border: var(--b); }
+      .pos-child {
+        position: absolute; background: var(--red); color: var(--bg);
+        font-family: var(--fm); font-size: 0.58rem; padding: 0.3rem 0.5rem;
+      }
+
+      /* z-index visual */
+      .z-stack { position: relative; width: 160px; height: 80px; }
+      .z-layer {
+        position: absolute; width: 100px; height: 55px; display: flex;
+        align-items: center; justify-content: center;
+        font-family: var(--fm); font-size: 0.62rem; border: var(--b);
+      }
+
+      /* cursor row */
+      .cursor-box {
+        padding: 0.6rem 1.2rem; border: var(--b); background: var(--bg);
+        font-family: var(--fm); font-size: 0.68rem; color: var(--ink2);
+        display: inline-flex; align-items: center; gap: 0.4rem;
+      }
+      .cursor-dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; }
+
+      /* visibility */
+      .vis-box {
+        padding: 0.75rem 1.5rem; border: var(--b); background: var(--bg2);
+        font-family: var(--fm); font-size: 0.72rem;
+      }
+
+      /* responsive */
+      @media (max-width: 640px) {
+        .navbar { padding: 0 1.25rem; }
+        .page-header { padding: 2.5rem 1.25rem 2rem; }
+        .demo-section { padding: 1.5rem 1.25rem; }
+        .sec-label { padding: 0.7rem 1.25rem; }
+        .demo-canvas { padding: 1.25rem; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <a class="navbar-logo" href="./index.html">k<span>.</span></a>
+      <ul class="navbar-links">
+        <li><a href="./index.html">Home</a></li>
+        <li><a href="./docs.html">Docs</a></li>
+        <li><a href="https://github.com/idreamfyrei/kata-css" target="_blank">GitHub ↗</a></li>
+        <li><a href="https://www.npmjs.com/package/kata-css" target="_blank">npm ↗</a></li>
+        <li><a href="https://x.com/_saumya_ag" target="_blank">Creator ↗</a></li>
+      </ul>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+      <span class="page-header-tag">Style Showcase — Alpha v0.0.3</span>
+      <h1 class="page-header-title">Every Class.<br/>Every Token.</h1>
+      <p class="page-header-sub">
+        kata-* classes, live in your browser — no build step, no config, no ceremony.
+      </p>
+    </header>
+
+
+    <!-- ══════════════════════════════════════════════════
+         01 · SPACING (Padding & Margin)
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">01 · Spacing — Padding &amp; Margin</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Padding Scale</div>
+      <div class="demo-section-desc">kata-p-{n} · kata-px-{n} · kata-py-{n} · kata-pt/pb/pl/pr-{n} — scale: n × 0.25rem</div>
+      <div class="demo-canvas">
+        <div class="spacing-demo">
+          <div>
+            <div class="spacing-box" style="width:4px;height:4px;"></div>
+            <span class="spacing-label">p-1</span>
+          </div>
+          <div>
+            <div class="spacing-box" style="width:8px;height:8px;"></div>
+            <span class="spacing-label">p-2</span>
+          </div>
+          <div>
+            <div class="spacing-box" style="width:16px;height:16px;"></div>
+            <span class="spacing-label">p-4</span>
+          </div>
+          <div>
+            <div class="spacing-box" style="width:32px;height:32px;"></div>
+            <span class="spacing-label">p-8</span>
+          </div>
+          <div>
+            <div class="spacing-box" style="width:48px;height:48px;"></div>
+            <span class="spacing-label">p-12</span>
+          </div>
+          <div>
+            <div class="spacing-box" style="width:64px;height:64px;"></div>
+            <span class="spacing-label">p-16</span>
+          </div>
+          <div>
+            <div class="spacing-box" style="width:96px;height:96px;"></div>
+            <span class="spacing-label">p-24</span>
+          </div>
+        </div>
+      </div>
+      <!-- live kata demo -->
+      <div style="margin-top:1.25rem; display:flex; flex-wrap:wrap; gap:0.75rem;">
+        <div style="background:#d94f3d;color:#f3ead6;font-family:var(--fm);font-size:0.7rem;" class="kata-p-2">kata-p-2</div>
+        <div style="background:#d94f3d;color:#f3ead6;font-family:var(--fm);font-size:0.7rem;" class="kata-p-4">kata-p-4</div>
+        <div style="background:#d94f3d;color:#f3ead6;font-family:var(--fm);font-size:0.7rem;" class="kata-p-6">kata-p-6</div>
+        <div style="background:#d94f3d;color:#f3ead6;font-family:var(--fm);font-size:0.7rem;" class="kata-px-8 kata-py-2">kata-px-8 kata-py-2</div>
+        <div style="background:#d94f3d;color:#f3ead6;font-family:var(--fm);font-size:0.7rem;" class="kata-pt-6 kata-pb-2 kata-px-4">kata-pt-6 kata-pb-2 kata-px-4</div>
+      </div>
+      <div class="code-row"><span class="kw">&lt;div</span> <span class="cls">class</span>="<span style="color:#8db87a">kata-p-4</span>"&gt; &nbsp; <span class="kw">&lt;div</span> <span class="cls">class</span>="<span style="color:#8db87a">kata-px-8 kata-py-2</span>"&gt;</div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Margin Scale + Auto</div>
+      <div class="demo-section-desc">kata-m-{n} · kata-mx-auto · kata-ml/mr-auto — same 0.25rem scale</div>
+      <div class="demo-canvas col">
+        <div style="background:var(--ink);color:var(--bg);font-family:var(--fm);font-size:0.7rem;width:100%;" class="kata-mx-auto kata-py-2 kata-px-4">kata-mx-auto (centered)</div>
+        <div style="display:flex;gap:0;width:100%;">
+          <div style="background:#d94f3d;color:var(--bg);font-family:var(--fm);font-size:0.68rem;" class="kata-m-2 kata-p-2">m-2</div>
+          <div style="background:#d94f3d;color:var(--bg);font-family:var(--fm);font-size:0.68rem;" class="kata-m-4 kata-p-2">m-4</div>
+          <div style="background:#d94f3d;color:var(--bg);font-family:var(--fm);font-size:0.68rem;" class="kata-m-8 kata-p-2">m-8</div>
+          <div style="background:#d94f3d;color:var(--bg);font-family:var(--fm);font-size:0.68rem;" class="kata-ml-auto kata-p-2">kata-ml-auto →</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         02 · WIDTH & HEIGHT
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">02 · Width &amp; Height</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Width Utilities</div>
+      <div class="demo-section-desc">kata-w-{n} · kata-w-full · kata-w-half · kata-w-auto · kata-w-screen · kata-w-min · kata-w-max · kata-w-fit</div>
+      <div class="demo-canvas col">
+        <div style="background:var(--red);height:22px;font-family:var(--fm);font-size:0.6rem;color:var(--bg);display:flex;align-items:center;padding:0 0.5rem;" class="kata-w-full">kata-w-full</div>
+        <div style="background:var(--ink);height:22px;font-family:var(--fm);font-size:0.6rem;color:var(--bg);display:flex;align-items:center;padding:0 0.5rem;" class="kata-w-half">kata-w-half</div>
+        <div style="background:var(--ink3);height:22px;font-family:var(--fm);font-size:0.6rem;color:var(--bg);display:flex;align-items:center;padding:0 0.5rem;width:12rem;">kata-w-48 (12rem)</div>
+        <div style="background:rgba(217,79,61,0.25);height:22px;font-family:var(--fm);font-size:0.6rem;color:var(--ink);display:flex;align-items:center;padding:0 0.5rem;" class="kata-w-fit">kata-w-fit</div>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Height Utilities</div>
+      <div class="demo-section-desc">kata-h-{n} · kata-h-full · kata-h-auto · kata-h-fit · kata-h-screen</div>
+      <div class="demo-canvas" style="align-items:flex-end;">
+        <div style="background:var(--red);width:48px;font-family:var(--fm);font-size:0.58rem;color:var(--bg);display:flex;align-items:flex-start;justify-content:center;padding-top:4px;" class="kata-h-8">h-8</div>
+        <div style="background:var(--red);width:48px;font-family:var(--fm);font-size:0.58rem;color:var(--bg);display:flex;align-items:flex-start;justify-content:center;padding-top:4px;" class="kata-h-16">h-16</div>
+        <div style="background:var(--red);width:48px;font-family:var(--fm);font-size:0.58rem;color:var(--bg);display:flex;align-items:flex-start;justify-content:center;padding-top:4px;" class="kata-h-24">h-24</div>
+        <div style="background:var(--red);width:48px;font-family:var(--fm);font-size:0.58rem;color:var(--bg);display:flex;align-items:flex-start;justify-content:center;padding-top:4px;" class="kata-h-32">h-32</div>
+        <div style="background:var(--ink);width:48px;font-family:var(--fm);font-size:0.58rem;color:var(--bg);display:flex;align-items:flex-start;justify-content:center;padding-top:4px;" class="kata-h-fit" style="padding:0.5rem 0;">h-fit</div>
+      </div>
+    </div>
+
+
+
+    <!-- ══════════════════════════════════════════════════
+         03 · FLEXBOX
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">03 · Flexbox</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Flex Direction &amp; Wrap</div>
+      <div class="demo-section-desc">kata-flex · kata-flex-row · kata-flex-col · kata-flex-wrap · kata-flex-nowrap</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">flex-row</div>
+          <div class="flex-container kata-flex kata-flex-row" style="gap:0.4rem;">
+            <div class="flex-box">A</div>
+            <div class="flex-box">B</div>
+            <div class="flex-box">C</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">flex-col</div>
+          <div class="flex-container kata-flex kata-flex-col" style="gap:0.4rem;">
+            <div class="flex-box">A</div>
+            <div class="flex-box">B</div>
+            <div class="flex-box">C</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section-title">Justify &amp; Align</div>
+      <div class="demo-section-desc">kata-justify-start · center · end · between · around · evenly &nbsp;|&nbsp; kata-items-start · center · end · baseline · stretch</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;">
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.35rem;">justify-between</div>
+          <div class="flex-container kata-flex kata-justify-between">
+            <div class="flex-box" style="padding:0.3rem 0.5rem;">A</div>
+            <div class="flex-box" style="padding:0.3rem 0.5rem;">B</div>
+            <div class="flex-box" style="padding:0.3rem 0.5rem;">C</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.35rem;">justify-center</div>
+          <div class="flex-container kata-flex kata-justify-center" style="gap:0.4rem;">
+            <div class="flex-box" style="padding:0.3rem 0.5rem;">A</div>
+            <div class="flex-box" style="padding:0.3rem 0.5rem;">B</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.35rem;">items-center</div>
+          <div class="flex-container kata-flex kata-items-center" style="gap:0.4rem;height:50px;">
+            <div class="flex-box" style="padding:0.3rem 0.5rem;height:20px;">A</div>
+            <div class="flex-box" style="padding:0.3rem 0.5rem;height:35px;">B</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:1.75rem;">Gap</div>
+      <div class="demo-section-desc">kata-gap-{n} · kata-gap-x-{n} · kata-gap-y-{n}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;">
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.35rem;">gap-2 (0.5rem)</div>
+          <div class="flex-container kata-flex kata-flex-wrap kata-gap-2">
+            <div class="flex-box" style="padding:0.3rem 0.4rem;">1</div>
+            <div class="flex-box" style="padding:0.3rem 0.4rem;">2</div>
+            <div class="flex-box" style="padding:0.3rem 0.4rem;">3</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.35rem;">gap-6 (1.5rem)</div>
+          <div class="flex-container kata-flex kata-flex-wrap kata-gap-6">
+            <div class="flex-box" style="padding:0.3rem 0.4rem;">1</div>
+            <div class="flex-box" style="padding:0.3rem 0.4rem;">2</div>
+            <div class="flex-box" style="padding:0.3rem 0.4rem;">3</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.35rem;">gap-x-8 gap-y-2</div>
+          <div class="flex-container kata-flex kata-flex-wrap kata-gap-x-8 kata-gap-y-2">
+            <div class="flex-box" style="padding:0.3rem 0.4rem;">1</div>
+            <div class="flex-box" style="padding:0.3rem 0.4rem;">2</div>
+            <div class="flex-box" style="padding:0.3rem 0.4rem;">3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         04 · TYPOGRAPHY
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">04 · Typography</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Font Size</div>
+      <div class="demo-section-desc">kata-text-xs · sm · base · lg · xl · 2xl · 3xl · 4xl · 5xl · 6xl</div>
+      <div class="demo-canvas col">
+        <div class="typo-block kata-text-xs" style="font-family:var(--fm);color:var(--ink2);">kata-text-xs — 0.75rem / 1rem</div>
+        <div class="typo-block kata-text-sm" style="font-family:var(--fm);color:var(--ink2);">kata-text-sm — 0.875rem</div>
+        <div class="typo-block kata-text-base" style="color:var(--ink2);">kata-text-base — 1rem</div>
+        <div class="typo-block kata-text-lg" style="color:var(--ink2);">kata-text-lg — 1.125rem</div>
+        <div class="typo-block kata-text-xl" style="color:var(--ink2);">kata-text-xl — 1.25rem</div>
+        <div class="typo-block kata-text-2xl" style="color:var(--ink);">kata-text-2xl — 1.5rem</div>
+        <div class="typo-block kata-text-3xl" style="font-weight:700;color:var(--ink);">kata-text-3xl — 1.875rem</div>
+        <div class="typo-block kata-text-4xl" style="font-weight:900;color:var(--ink);">kata-text-4xl</div>
+        <div class="typo-block kata-text-5xl" style="font-weight:900;letter-spacing:-0.04em;color:var(--ink);">kata-text-5xl</div>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Font Weight</div>
+      <div class="demo-section-desc">kata-font-thin → black (100–900)</div>
+      <div class="demo-canvas" style="flex-wrap:wrap;gap:1rem;align-items:baseline;">
+        <span class="kata-font-thin kata-text-2xl" style="color:var(--ink);">Thin</span>
+        <span class="kata-font-extralight kata-text-2xl" style="color:var(--ink);">XLight</span>
+        <span class="kata-font-light kata-text-2xl" style="color:var(--ink);">Light</span>
+        <span class="kata-font-normal kata-text-2xl" style="color:var(--ink);">Normal</span>
+        <span class="kata-font-medium kata-text-2xl" style="color:var(--ink);">Medium</span>
+        <span class="kata-font-semibold kata-text-2xl" style="color:var(--ink);">SemiBold</span>
+        <span class="kata-font-bold kata-text-2xl" style="color:var(--ink);">Bold</span>
+        <span class="kata-font-extrabold kata-text-2xl" style="color:var(--ink);">X-Bold</span>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Font Family</div>
+      <div class="demo-section-desc">kata-font-sans · kata-font-serif · kata-font-mono</div>
+      <div class="demo-canvas col">
+        <div class="kata-font-sans kata-text-xl kata-font-bold" style="color:var(--ink);">kata-font-sans — The quick brown fox</div>
+        <div class="kata-font-serif kata-text-xl kata-font-bold" style="color:var(--ink);">kata-font-serif — The quick brown fox</div>
+        <div class="kata-font-mono kata-text-lg" style="color:var(--ink);">kata-font-mono — The quick brown fox</div>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Text Alignment</div>
+      <div class="demo-section-desc">kata-text-left · center · right · justify</div>
+      <div class="demo-canvas col">
+        <div class="kata-text-left" style="width:100%;border-bottom:var(--bl);padding-bottom:0.5rem;color:var(--ink);">kata-text-left — Left aligned text</div>
+        <div class="kata-text-center" style="width:100%;border-bottom:var(--bl);padding-bottom:0.5rem;color:var(--ink);">kata-text-center — Centered text</div>
+        <div class="kata-text-right" style="width:100%;color:var(--ink);">kata-text-right — Right aligned</div>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Text Decoration &amp; Style</div>
+      <div class="demo-section-desc">kata-underline · kata-overline · kata-line-through · kata-italic · kata-decoration-wavy &amp; more</div>
+      <div class="demo-canvas" style="flex-wrap:wrap;gap:1rem;align-items:center;">
+        <span class="kata-underline kata-text-base" style="color:var(--ink);">kata-underline</span>
+        <span class="kata-overline kata-text-base" style="color:var(--ink);">kata-overline</span>
+        <span class="kata-line-through kata-text-base" style="color:var(--ink);">kata-line-through</span>
+        <span class="kata-underline kata-decoration-wavy kata-text-base" style="color:var(--red);">decoration-wavy</span>
+        <span class="kata-underline kata-decoration-dashed kata-text-base" style="color:var(--ink);">decoration-dashed</span>
+        <span class="kata-italic kata-text-base" style="color:var(--ink);">kata-italic</span>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Line Height &amp; Letter Spacing</div>
+      <div class="demo-section-desc">kata-leading-{none|tight|snug|normal|relaxed|loose} · kata-tracking-{tighter…widest}</div>
+      <div class="demo-canvas" style="gap:1.5rem;flex-wrap:wrap;">
+        <div style="max-width:160px;">
+          <div style="font-family:var(--fm);font-size:0.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">leading-none</div>
+          <p class="kata-leading-none" style="color:var(--ink);font-size:0.85rem;">Line height<br/>set to one.<br/>Very tight.</p>
+        </div>
+        <div style="max-width:160px;">
+          <div style="font-family:var(--fm);font-size:0.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">leading-relaxed</div>
+          <p class="kata-leading-relaxed" style="color:var(--ink);font-size:0.85rem;">Line height<br/>set to 1.625.<br/>Much airier.</p>
+        </div>
+        <div style="max-width:160px;">
+          <div style="font-family:var(--fm);font-size:0.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">leading-loose</div>
+          <p class="kata-leading-loose" style="color:var(--ink);font-size:0.85rem;">Line height<br/>set to 2.<br/>Very open.</p>
+        </div>
+        <div>
+          <div style="font-family:var(--fm);font-size:0.58rem;color:var(--ink4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.4rem;">tracking scale</div>
+          <div class="kata-tracking-tighter kata-text-base" style="color:var(--ink);">tracking-tighter</div>
+          <div class="kata-tracking-normal kata-text-base" style="color:var(--ink);">tracking-normal</div>
+          <div class="kata-tracking-wide kata-text-base" style="color:var(--ink);">tracking-wide</div>
+          <div class="kata-tracking-widest kata-text-base" style="color:var(--ink3);font-family:var(--fm);font-size:0.72rem;">tracking-widest</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         05 · COLOR — Text, Background, Border
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">05 · Color — Text · Background · Border</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Background Colors</div>
+      <div class="demo-section-desc">kata-bg-{color} · kata-text-{color} · kata-border-{color}</div>
+      <div class="swatch-grid" style="border:var(--b);">
+        <div class="swatch kata-bg-gray-100"><span class="swatch-label">gray-100</span></div>
+        <div class="swatch kata-bg-gray-300"><span class="swatch-label">gray-300</span></div>
+        <div class="swatch kata-bg-gray-500"><span class="swatch-label">gray-500</span></div>
+        <div class="swatch kata-bg-gray-700"><span class="swatch-label">gray-700</span></div>
+        <div class="swatch kata-bg-gray-900"><span class="swatch-label">gray-900</span></div>
+        <div class="swatch kata-bg-red-100"><span class="swatch-label">red-100</span></div>
+        <div class="swatch kata-bg-red-300"><span class="swatch-label">red-300</span></div>
+        <div class="swatch kata-bg-red-500"><span class="swatch-label">red-500</span></div>
+        <div class="swatch kata-bg-red-700"><span class="swatch-label">red-700</span></div>
+        <div class="swatch kata-bg-red-900"><span class="swatch-label">red-900</span></div>
+        <div class="swatch kata-bg-orange-100"><span class="swatch-label">orange-100</span></div>
+        <div class="swatch kata-bg-orange-300"><span class="swatch-label">orange-300</span></div>
+        <div class="swatch kata-bg-orange-500"><span class="swatch-label">orange-500</span></div>
+        <div class="swatch kata-bg-orange-700"><span class="swatch-label">orange-700</span></div>
+        <div class="swatch kata-bg-yellow-100"><span class="swatch-label">yellow-100</span></div>
+        <div class="swatch kata-bg-yellow-300"><span class="swatch-label">yellow-300</span></div>
+        <div class="swatch kata-bg-yellow-500"><span class="swatch-label">yellow-500</span></div>
+        <div class="swatch kata-bg-yellow-700"><span class="swatch-label">yellow-700</span></div>
+        <div class="swatch kata-bg-green-100"><span class="swatch-label">green-100</span></div>
+        <div class="swatch kata-bg-green-300"><span class="swatch-label">green-300</span></div>
+        <div class="swatch kata-bg-green-500"><span class="swatch-label">green-500</span></div>
+        <div class="swatch kata-bg-green-700"><span class="swatch-label">green-700</span></div>
+        <div class="swatch kata-bg-green-900"><span class="swatch-label">green-900</span></div>
+        <div class="swatch kata-bg-teal-100"><span class="swatch-label">teal-100</span></div>
+        <div class="swatch kata-bg-teal-300"><span class="swatch-label">teal-300</span></div>
+        <div class="swatch kata-bg-teal-500"><span class="swatch-label">teal-500</span></div>
+        <div class="swatch kata-bg-teal-700"><span class="swatch-label">teal-700</span></div>
+        <div class="swatch kata-bg-blue-100"><span class="swatch-label">blue-100</span></div>
+        <div class="swatch kata-bg-blue-300"><span class="swatch-label">blue-300</span></div>
+        <div class="swatch kata-bg-blue-500"><span class="swatch-label">blue-500</span></div>
+        <div class="swatch kata-bg-blue-700"><span class="swatch-label">blue-700</span></div>
+        <div class="swatch kata-bg-blue-900"><span class="swatch-label">blue-900</span></div>
+        <div class="swatch kata-bg-indigo-100"><span class="swatch-label">indigo-100</span></div>
+        <div class="swatch kata-bg-indigo-300"><span class="swatch-label">indigo-300</span></div>
+        <div class="swatch kata-bg-indigo-500"><span class="swatch-label">indigo-500</span></div>
+        <div class="swatch kata-bg-indigo-700"><span class="swatch-label">indigo-700</span></div>
+        <div class="swatch kata-bg-purple-100"><span class="swatch-label">purple-100</span></div>
+        <div class="swatch kata-bg-purple-300"><span class="swatch-label">purple-300</span></div>
+        <div class="swatch kata-bg-purple-500"><span class="swatch-label">purple-500</span></div>
+        <div class="swatch kata-bg-purple-700"><span class="swatch-label">purple-700</span></div>
+        <div class="swatch kata-bg-pink-100"><span class="swatch-label">pink-100</span></div>
+        <div class="swatch kata-bg-pink-300"><span class="swatch-label">pink-300</span></div>
+        <div class="swatch kata-bg-pink-500"><span class="swatch-label">pink-500</span></div>
+        <div class="swatch kata-bg-pink-700"><span class="swatch-label">pink-700</span></div>
+        <div class="swatch kata-bg-black"><span class="swatch-label">black</span></div>
+        <div class="swatch kata-bg-white" style="border:var(--b);"><span class="swatch-label" style="mix-blend-mode:normal;color:var(--ink3);">white</span></div>
+        <div class="swatch kata-bg-transparent" style="border:1px dashed rgba(16,16,14,0.3);background-image:repeating-linear-gradient(45deg,rgba(0,0,0,0.04) 0,rgba(0,0,0,0.04) 1px,transparent 0,transparent 50%);background-size:6px 6px;"><span class="swatch-label" style="mix-blend-mode:normal;color:var(--ink3);">transparent</span></div>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Text Color Samples</div>
+      <div class="demo-canvas" style="flex-wrap:wrap;gap:0.5rem;background:var(--bg3);">
+        <span class="kata-text-red-500 kata-font-bold kata-text-xl">kata-text-red-500</span>
+        <span class="kata-text-blue-700 kata-font-bold kata-text-xl">kata-text-blue-700</span>
+        <span class="kata-text-green-500 kata-font-bold kata-text-xl">kata-text-green-500</span>
+        <span class="kata-text-purple-500 kata-font-bold kata-text-xl">kata-text-purple-500</span>
+        <span class="kata-text-orange-500 kata-font-bold kata-text-xl">kata-text-orange-500</span>
+        <span class="kata-text-teal-500 kata-font-bold kata-text-xl">kata-text-teal-500</span>
+        <span class="kata-text-pink-500 kata-font-bold kata-text-xl">kata-text-pink-500</span>
+        <span class="kata-text-gray-400 kata-font-bold kata-text-xl">kata-text-gray-400</span>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Border Color</div>
+      <div class="demo-canvas" style="flex-wrap:wrap;gap:1rem;">
+        <div class="kata-border-2 kata-border-solid kata-border-red-500 kata-p-3" style="font-family:var(--fm);font-size:0.68rem;">border-red-500</div>
+        <div class="kata-border-2 kata-border-solid kata-border-blue-500 kata-p-3" style="font-family:var(--fm);font-size:0.68rem;">border-blue-500</div>
+        <div class="kata-border-2 kata-border-solid kata-border-green-500 kata-p-3" style="font-family:var(--fm);font-size:0.68rem;">border-green-500</div>
+        <div class="kata-border-4 kata-border-solid kata-border-purple-500 kata-p-3" style="font-family:var(--fm);font-size:0.68rem;">border-4 purple-500</div>
+        <div class="kata-border-8 kata-border-solid kata-border-orange-500 kata-p-3" style="font-family:var(--fm);font-size:0.68rem;">border-8 orange-500</div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         06 · CHAI COLOR TOKENS (ChaiCode Exclusive)
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">06 · Chai Color Tokens — ChaiCode Exclusive ☕</div>
+    <div class="demo-section">
+      <div class="demo-section-title">50+ Tea & Chai Named Colors</div>
+      <div class="demo-section-desc">kata-bg-kata-chai-{name} · kata-text-kata-chai-{name} · kata-border-kata-chai-{name}</div>
+
+      <div style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">South Asian Chais</div>
+      <div class="chai-grid" style="margin-bottom:1.25rem;">
+        <div class="chai-swatch kata-bg-kata-chai-masala"><span class="chai-swatch-name">masala</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-karak"><span class="chai-swatch-name">karak</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-kashmiri"><span class="chai-swatch-name">kashmiri</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-noon"><span class="chai-swatch-name">noon</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-ginger"><span class="chai-swatch-name">ginger</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-cardamom"><span class="chai-swatch-name">cardamom</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-elaichi"><span class="chai-swatch-name">elaichi</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-black"><span class="chai-swatch-name">black</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-saffron"><span class="chai-swatch-name">saffron</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-tulsi"><span class="chai-swatch-name">tulsi</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-foam"><span class="chai-swatch-name" style="color:var(--ink3);">foam</span></div>
+      </div>
+
+      <div style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Japanese Greens</div>
+      <div class="chai-grid" style="margin-bottom:1.25rem;">
+        <div class="chai-swatch kata-bg-kata-chai-matcha"><span class="chai-swatch-name">matcha</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-matcha-latte"><span class="chai-swatch-name">matcha-latte</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-matcha-ceremonial"><span class="chai-swatch-name">ceremonial</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-sencha"><span class="chai-swatch-name">sencha</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-hojicha"><span class="chai-swatch-name">hojicha</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-genmaicha"><span class="chai-swatch-name">genmaicha</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-gyokuro"><span class="chai-swatch-name">gyokuro</span></div>
+      </div>
+
+      <div style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Oolong &amp; Chinese</div>
+      <div class="chai-grid" style="margin-bottom:1.25rem;">
+        <div class="chai-swatch kata-bg-kata-chai-oolong-light"><span class="chai-swatch-name">oolong-light</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-oolong-dark"><span class="chai-swatch-name">oolong-dark</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-dahongpao"><span class="chai-swatch-name">dahongpao</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-puerh"><span class="chai-swatch-name">puerh</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-longjing"><span class="chai-swatch-name">longjing</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-tieguanyin"><span class="chai-swatch-name">tieguanyin</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-chrysanthemum"><span class="chai-swatch-name" style="color:var(--ink3);">chrysanthemum</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-baimudan"><span class="chai-swatch-name" style="color:var(--ink3);">baimudan</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-yinzhen"><span class="chai-swatch-name" style="color:var(--ink3);">yinzhen</span></div>
+      </div>
+
+      <div style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Blacks · African · Western · Herbal</div>
+      <div class="chai-grid" style="margin-bottom:1.25rem;">
+        <div class="chai-swatch kata-bg-kata-chai-assam"><span class="chai-swatch-name">assam</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-darjeeling"><span class="chai-swatch-name">darjeeling</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-ceylon"><span class="chai-swatch-name">ceylon</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-nilgiri"><span class="chai-swatch-name">nilgiri</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-kenya"><span class="chai-swatch-name">kenya</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-rooibos"><span class="chai-swatch-name">rooibos</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-earl-grey"><span class="chai-swatch-name">earl-grey</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-english-breakfast"><span class="chai-swatch-name">eng-breakfast</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-chamomile"><span class="chai-swatch-name">chamomile</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-peppermint"><span class="chai-swatch-name">peppermint</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-hibiscus"><span class="chai-swatch-name">hibiscus</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-lavender"><span class="chai-swatch-name">lavender</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-rosehip"><span class="chai-swatch-name">rosehip</span></div>
+      </div>
+
+      <div style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Middle Eastern · South American</div>
+      <div class="chai-grid">
+        <div class="chai-swatch kata-bg-kata-chai-moroccan-mint"><span class="chai-swatch-name">moroccan-mint</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-irani"><span class="chai-swatch-name">irani</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-samovar"><span class="chai-swatch-name">samovar</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-saffron-persian"><span class="chai-swatch-name">saffron-persian</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-yerba-mate"><span class="chai-swatch-name">yerba-mate</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-mate-amargo"><span class="chai-swatch-name">mate-amargo</span></div>
+        <div class="chai-swatch kata-bg-kata-chai-cascara"><span class="chai-swatch-name">cascara</span></div>
+      </div>
+
+      <!-- Chai text demo -->
+      <div style="margin-top:1.75rem;" class="demo-canvas dark">
+        <span class="kata-text-kata-chai-masala kata-text-3xl kata-font-black" style="letter-spacing:-0.04em;">masala</span>
+        <span class="kata-text-kata-chai-matcha kata-text-3xl kata-font-black" style="letter-spacing:-0.04em;">matcha</span>
+        <span class="kata-text-kata-chai-kashmiri kata-text-3xl kata-font-black" style="letter-spacing:-0.04em;">kashmiri</span>
+        <span class="kata-text-kata-chai-saffron kata-text-3xl kata-font-black" style="letter-spacing:-0.04em;">saffron</span>
+        <span class="kata-text-kata-chai-earl-grey kata-text-3xl kata-font-black" style="letter-spacing:-0.04em;">earl-grey</span>
+        <span class="kata-text-kata-chai-hibiscus kata-text-3xl kata-font-black" style="letter-spacing:-0.04em;">hibiscus</span>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         07 · BORDER
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">07 · Border</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Border Width &amp; Style</div>
+      <div class="demo-section-desc">kata-border-{0|1|2|4|8} · kata-border-{t|r|b|l} · kata-border-{solid|dashed|dotted|double|none}</div>
+      <div class="demo-canvas" style="flex-wrap:wrap;gap:1rem;">
+        <div class="border-demo-box kata-border kata-border-solid kata-border-gray-900">border<br/>solid</div>
+        <div class="border-demo-box kata-border-2 kata-border-dashed kata-border-gray-900">border-2<br/>dashed</div>
+        <div class="border-demo-box kata-border-4 kata-border-dotted kata-border-gray-900">border-4<br/>dotted</div>
+        <div class="border-demo-box kata-border-4 kata-border-double kata-border-gray-900">border-4<br/>double</div>
+        <div class="border-demo-box kata-border-8 kata-border-solid kata-border-red-500">border-8<br/>red-500</div>
+        <div class="border-demo-box kata-border-t kata-border-solid kata-border-gray-900">border-t<br/>only</div>
+        <div class="border-demo-box kata-border-b kata-border-solid kata-border-red-500">border-b<br/>red</div>
+        <div class="border-demo-box kata-border-l kata-border-4 kata-border-solid kata-border-blue-500">border-l<br/>blue</div>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Border Radius</div>
+      <div class="demo-section-desc">kata-rounded-{none|sm|md|lg|xl|2xl|3xl|full}</div>
+      <div class="demo-canvas" style="flex-wrap:wrap;gap:1rem;align-items:center;">
+        <div style="width:60px;height:60px;background:var(--red);" class="kata-rounded-none"></div>
+        <div style="width:60px;height:60px;background:var(--red);" class="kata-rounded-sm"></div>
+        <div style="width:60px;height:60px;background:var(--red);" class="kata-rounded-md"></div>
+        <div style="width:60px;height:60px;background:var(--red);" class="kata-rounded-lg"></div>
+        <div style="width:60px;height:60px;background:var(--red);" class="kata-rounded-xl"></div>
+        <div style="width:60px;height:60px;background:var(--red);" class="kata-rounded-2xl"></div>
+        <div style="width:60px;height:60px;background:var(--red);" class="kata-rounded-3xl"></div>
+        <div style="width:60px;height:60px;background:var(--red);" class="kata-rounded-full"></div>
+        <div style="width:120px;height:36px;background:var(--ink);" class="kata-rounded-full kata-flex kata-items-center kata-justify-center">
+          <span style="font-family:var(--fm);font-size:0.62rem;color:var(--bg);">pill shape</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         08 · POSITION & Z-INDEX
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">08 · Position &amp; Z-Index</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Position Utilities</div>
+      <div class="demo-section-desc">kata-static · kata-relative · kata-absolute · kata-fixed · kata-sticky · kata-top/right/bottom/left-{n} · kata-inset-0</div>
+      <div class="demo-canvas" style="gap:2rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.4rem;">relative + absolute</div>
+          <div class="pos-parent">
+            <span style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);">parent (relative)</span>
+            <div class="pos-child kata-top-2 kata-right-2">kata-top-2 kata-right-2</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.4rem;">absolute + inset-0</div>
+          <div class="pos-parent" style="overflow:hidden;">
+            <div class="kata-absolute kata-inset-0" style="background:rgba(217,79,61,0.12);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:0.62rem;">kata-inset-0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Z-Index Stack</div>
+      <div class="demo-section-desc">kata-z-{0…96} · kata-z-auto</div>
+      <div class="demo-canvas">
+        <div class="z-stack">
+          <div class="z-layer kata-z-10" style="top:0;left:0;background:var(--bg3);">z-10</div>
+          <div class="z-layer kata-z-20" style="top:14px;left:28px;background:var(--bg2);">z-20</div>
+          <div class="z-layer kata-z-30" style="top:28px;left:56px;background:var(--ink);color:var(--bg);">z-30 (top)</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         09 · BOX SIZING
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">09 · Box Sizing</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Box Sizing</div>
+      <div class="demo-section-desc">kata-box-border · kata-box-content</div>
+      <div class="demo-canvas" style="gap:1.5rem;flex-wrap:wrap;">
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.4rem;">kata-box-border (padding inside)</div>
+          <div class="kata-box-border kata-border-2 kata-border-solid kata-border-red-500 kata-p-4" style="width:160px;background:var(--bg2);font-family:var(--fm);font-size:0.68rem;">width:160px total</div>
+        </div>
+        <div>
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);margin-bottom:0.4rem;">kata-box-content (padding outside)</div>
+          <div class="kata-box-content kata-border-2 kata-border-solid kata-border-blue-500 kata-p-4" style="width:160px;background:var(--bg2);font-family:var(--fm);font-size:0.68rem;">width:160px + padding</div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         10 · BACKGROUND OPTIONS
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">10 · Background Options</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Background Utilities</div>
+      <div class="demo-section-desc">kata-bg-cover · kata-bg-contain · kata-bg-center · kata-bg-no-repeat · kata-bg-none</div>
+      <div class="demo-canvas" style="flex-wrap:wrap;gap:1rem;">
+        <div class="kata-bg-cover kata-bg-center kata-bg-no-repeat kata-rounded-lg" style="width:140px;height:90px;background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300');border:var(--b);">
+          <span style="font-family:var(--fm);font-size:0.58rem;background:var(--ink);color:var(--bg);padding:2px 5px;">bg-cover</span>
+        </div>
+        <div class="kata-bg-contain kata-bg-center kata-bg-no-repeat" style="width:140px;height:90px;background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=300');border:var(--b);background-color:var(--bg2);">
+          <span style="font-family:var(--fm);font-size:0.58rem;background:var(--ink);color:var(--bg);padding:2px 5px;">bg-contain</span>
+        </div>
+        <div class="kata-bg-none kata-bg-blue-100 kata-rounded-lg" style="width:140px;height:90px;border:var(--b);display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:var(--fm);font-size:0.65rem;">kata-bg-none</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         11 · CURSOR & VISIBILITY
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">11 · Cursor &amp; Visibility</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Cursor Variants</div>
+      <div class="demo-section-desc">kata-cursor-{auto|default|pointer|wait|text|move|not-allowed|grab}</div>
+      <div class="demo-canvas" style="flex-wrap:wrap;gap:0.75rem;">
+        <div class="cursor-box kata-cursor-pointer"><div class="cursor-dot"></div>pointer</div>
+        <div class="cursor-box kata-cursor-wait"><div class="cursor-dot" style="background:var(--ink);"></div>wait</div>
+        <div class="cursor-box kata-cursor-text"><div class="cursor-dot" style="background:var(--ink);"></div>text</div>
+        <div class="cursor-box kata-cursor-move"><div class="cursor-dot" style="background:var(--ink);"></div>move</div>
+        <div class="cursor-box kata-cursor-not-allowed" style="opacity:0.5;"><div class="cursor-dot" style="background:var(--red);"></div>not-allowed</div>
+        <div class="cursor-box kata-cursor-grab"><div class="cursor-dot" style="background:var(--ink);"></div>grab</div>
+        <div class="cursor-box kata-cursor-default"><div class="cursor-dot" style="background:var(--ink);"></div>default</div>
+      </div>
+
+      <div class="demo-section-title" style="margin-top:2rem;">Visibility</div>
+      <div class="demo-section-desc">kata-visible · kata-invisible</div>
+      <div class="demo-canvas" style="gap:1rem;">
+        <div class="vis-box kata-visible">kata-visible — I am visible</div>
+        <div class="vis-box kata-invisible">kata-invisible — (takes space but invisible)</div>
+        <div style="font-family:var(--fm);font-size:0.68rem;color:var(--ink3);">element here is invisible (takes up space)</div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════════
+         COMBINED DEMO — Real UI Components
+    ══════════════════════════════════════════════════ -->
+    <div class="sec-label">13 · Combined — Real UI Cards &amp; Components</div>
+    <div class="demo-section">
+      <div class="demo-section-title">Cards, Badges &amp; Buttons built with kata-* only</div>
+      <div class="demo-section-desc">All styles below applied exclusively using kata-* class utilities</div>
+
+      <div class="demo-canvas" style="gap:1.5rem;flex-wrap:wrap;align-items:flex-start;">
+
+        <!-- card 1 -->
+        <div class="kata-bg-white kata-border kata-border-solid kata-border-gray-200 kata-rounded-xl kata-p-6" style="min-width:220px;max-width:280px;">
+          <div class="kata-flex kata-items-center kata-gap-3 kata-mb-4">
+            <div class="kata-w-10 kata-h-10 kata-rounded-full kata-bg-kata-chai-matcha kata-flex kata-items-center kata-justify-center">
+              <span style="color:white;font-size:1.1rem;">🍵</span>
+            </div>
+            <div>
+              <div class="kata-font-bold kata-text-base" style="color:var(--ink);">Matcha Latte</div>
+              <div class="kata-text-xs kata-font-mono kata-text-gray-400">japanese green</div>
+            </div>
+          </div>
+          <p class="kata-text-sm kata-leading-relaxed" style="color:var(--ink3);">Shade-grown ceremonial grade. Whisked to a frothy finish.</p>
+          <div class="kata-flex kata-gap-2 kata-mt-4">
+            <span class="kata-bg-green-100 kata-text-green-700 kata-rounded-full kata-px-3 kata-py-1 kata-text-xs kata-font-mono">organic</span>
+            <span class="kata-bg-teal-100 kata-text-teal-700 kata-rounded-full kata-px-3 kata-py-1 kata-text-xs kata-font-mono">japan</span>
+          </div>
+        </div>
+
+        <!-- card 2 — dark -->
+        <div class="kata-bg-gray-900 kata-rounded-xl kata-p-6 kata-border-2 kata-border-solid kata-border-kata-chai-saffron" style="min-width:220px;max-width:280px;">
+          <div class="kata-text-kata-chai-saffron kata-text-xs kata-font-mono kata-mb-2" style="text-transform:uppercase;letter-spacing:0.1em;">exclusive blend</div>
+          <div class="kata-text-white kata-font-black kata-text-2xl kata-mb-3" style="letter-spacing:-0.04em;">Karak Chai</div>
+          <div class="kata-flex kata-gap-1 kata-mb-4">
+            <div class="kata-w-4 kata-h-4 kata-rounded-full kata-bg-kata-chai-karak"></div>
+            <div class="kata-w-4 kata-h-4 kata-rounded-full kata-bg-kata-chai-masala"></div>
+            <div class="kata-w-4 kata-h-4 kata-rounded-full kata-bg-kata-chai-cardamom"></div>
+          </div>
+          <p class="kata-text-sm kata-leading-relaxed kata-text-gray-400">Gulf-style strong brew. Heavy milk, simmered low.</p>
+          <div class="kata-mt-5 kata-bg-kata-chai-saffron kata-rounded-lg kata-py-2 kata-px-4 kata-text-center kata-cursor-pointer">
+            <span class="kata-text-gray-900 kata-font-bold kata-text-sm">Order Now</span>
+          </div>
+        </div>
+
+        <!-- badges & pills -->
+        <div class="kata-flex kata-flex-col kata-gap-3">
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.1em;">Status Badges</div>
+          <span class="kata-bg-green-100 kata-text-green-700 kata-border kata-border-solid kata-border-green-300 kata-rounded-full kata-px-4 kata-py-1 kata-text-sm kata-font-mono">● active</span>
+          <span class="kata-bg-yellow-100 kata-text-yellow-700 kata-border kata-border-solid kata-border-yellow-300 kata-rounded-full kata-px-4 kata-py-1 kata-text-sm kata-font-mono">● pending</span>
+          <span class="kata-bg-red-100 kata-text-red-700 kata-border kata-border-solid kata-border-red-300 kata-rounded-full kata-px-4 kata-py-1 kata-text-sm kata-font-mono">● error</span>
+          <span class="kata-bg-gray-100 kata-text-gray-500 kata-border kata-border-solid kata-border-gray-200 kata-rounded-full kata-px-4 kata-py-1 kata-text-sm kata-font-mono">● inactive</span>
+
+          <div style="font-family:var(--fm);font-size:0.6rem;color:var(--ink3);text-transform:uppercase;letter-spacing:0.1em;margin-top:0.5rem;">Buttons</div>
+          <button class="kata-bg-gray-900 kata-text-white kata-rounded-lg kata-px-6 kata-py-3 kata-font-bold kata-text-sm kata-cursor-pointer kata-border-0" style="font-family:var(--fh);">Primary Action</button>
+          <button class="kata-bg-transparent kata-text-gray-900 kata-rounded-lg kata-px-6 kata-py-3 kata-font-semibold kata-text-sm kata-cursor-pointer kata-border kata-border-solid kata-border-gray-900" style="font-family:var(--fh);">Secondary</button>
+          <button class="kata-bg-red-500 kata-text-white kata-rounded-lg kata-px-6 kata-py-3 kata-font-bold kata-text-sm kata-cursor-pointer kata-border-0" style="font-family:var(--fh);">Destructive</button>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer style="border-top:var(--b);padding:1.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+      <span style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);">KataCSS Style Showcase — Alpha v0.0.3 — Built for ChaiCode</span>
+      <div style="display:flex;gap:1.5rem;">
+        <a href="./index.html" style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);text-decoration:none;">Home</a>
+        <a href="./docs.html" style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);text-decoration:none;">Docs</a>
+        <a href="https://github.com/idreamfyrei/kata-css" target="_blank" style="font-family:var(--fm);font-size:0.62rem;color:var(--ink3);text-decoration:none;">GitHub ↗</a>
+      </div>
+    </footer>
+
+    <!-- KataCSS runtime (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js"></script>
+  </body>
+</html>
