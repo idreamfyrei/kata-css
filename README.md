@@ -25,8 +25,8 @@ The spacing scale is `i × 0.25rem` so `kata-p-4` gives you `1rem`, same as Tail
 ---
 ## Deployment
 
-The docs are live at [KataCSS](https://kata.saumyagrawal.in)
-The demo is live [here](https://kata.saumyagrawal.in/demo.html)
+#### The docs are live at [KataCSS](https://kata.saumyagrawal.in)
+#### The demo is live [here](https://kata.saumyagrawal.in/demo.html)
 ---
 ## Installation
 
