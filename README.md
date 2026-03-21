@@ -23,7 +23,11 @@ No PostCSS. No JIT compiler. No purge configuration to think about. Drop a scrip
 The spacing scale is `i × 0.25rem` so `kata-p-4` gives you `1rem`, same as Tailwind. If you've used Tailwind before, the muscle memory transfers instantly.
 
 ---
+## Deployment
 
+The docs are live at [KataCSS](https://kata.saumyagrawal.in)
+The demo is live [here](https://kata.saumyagrawal.in/demo.html)
+---
 ## Installation
 
 ### CDN
