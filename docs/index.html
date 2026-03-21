@@ -6,6 +6,7 @@
     <title>KataCSS — Utility-First Without The Build Step</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
@@ -217,7 +218,7 @@
         color: var(--ink);
         text-decoration: none;
         padding: 0.65rem 0;
-        border-bottom: 1px solid rgba(16,16,14,0.1);
+        border-bottom: 1px solid rgba(16, 16, 14, 0.1);
         transition: color 0.12s;
       }
       .mobile-nav a:last-child {
@@ -378,8 +379,12 @@
         animation: marquee 28s linear infinite;
       }
       @keyframes marquee {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(-100%, 0); }
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(-100%, 0);
+        }
       }
 
       /* ── CAPABILITIES ── */
@@ -670,8 +675,16 @@
         <nav>
           <ul class="nav-links">
             <li><a href="./docs.html">Documentation</a></li>
-            <li><a href="https://github.com/idreamfyrei/kata-css" target="_blank">GitHub ↗</a></li>
-            <li><a href="https://www.npmjs.com/package/kata-css" target="_blank">npm ↗</a></li>
+            <li>
+              <a href="https://github.com/idreamfyrei/kata-css" target="_blank"
+                >GitHub ↗</a
+              >
+            </li>
+            <li>
+              <a href="https://www.npmjs.com/package/kata-css" target="_blank"
+                >npm ↗</a
+              >
+            </li>
             <li><a href="./demo.html">Demo</a></li>
             <li><a href="./docs.html#sec-chaicode">ChaiCode Exclusive</a></li>
           </ul>
@@ -681,7 +694,6 @@
 
       <!-- MAIN -->
       <main class="main-hero">
-
         <!-- TOP NAV -->
         <header class="top-nav">
           <!-- Brand left -->
@@ -692,9 +704,24 @@
             <a href="./docs.html#sec-installation">Installation</a>
             <a href="./docs.html">Getting Started</a>
             <div class="div"></div>
-            <a href="https://www.npmjs.com/package/kata-css" target="_blank" style="font-weight: 500">npm ↗</a>
-            <a href="https://github.com/idreamfyrei/kata-css" target="_blank" style="font-weight: 500">GitHub ↗</a>
-            <a href="https://x.com/_saumya_ag" target="_blank" style="font-weight: 500">Creator ↗</a>
+            <a
+              href="https://www.npmjs.com/package/kata-css"
+              target="_blank"
+              style="font-weight: 500"
+              >npm ↗</a
+            >
+            <a
+              href="https://github.com/idreamfyrei/kata-css"
+              target="_blank"
+              style="font-weight: 500"
+              >GitHub ↗</a
+            >
+            <a
+              href="https://x.com/_saumya_ag"
+              target="_blank"
+              style="font-weight: 500"
+              >Creator ↗</a
+            >
           </div>
 
           <!-- Hamburger (mobile) -->
@@ -707,11 +734,26 @@
 
         <!-- Mobile nav drawer -->
         <nav class="mobile-nav" id="mobileNav">
-            <a href="./docs.html#sec-installation">Installation</a>
-            <a href="./docs.html">Getting Started</a>
-            <a href="https://www.npmjs.com/package/kata-css" target="_blank" style="font-weight: 500">npm ↗</a>
-            <a href="https://github.com/idreamfyrei/kata-css" target="_blank" style="font-weight: 500">GitHub ↗</a>
-            <a href="https://x.com/_saumya_ag" target="_blank" style="font-weight: 500">Creator ↗</a>
+          <a href="./docs.html#sec-installation">Installation</a>
+          <a href="./docs.html">Getting Started</a>
+          <a
+            href="https://www.npmjs.com/package/kata-css"
+            target="_blank"
+            style="font-weight: 500"
+            >npm ↗</a
+          >
+          <a
+            href="https://github.com/idreamfyrei/kata-css"
+            target="_blank"
+            style="font-weight: 500"
+            >GitHub ↗</a
+          >
+          <a
+            href="https://x.com/_saumya_ag"
+            target="_blank"
+            style="font-weight: 500"
+            >Creator ↗</a
+          >
         </nav>
 
         <!-- HERO -->
@@ -721,9 +763,16 @@
             <p class="sub-headline">
               The utility-first framework that lives in the browser. KataCSS
               picks
-              <code style="font-family: var(--fm); font-size: 0.9em; color: var(--red)">kata-*</code>
-              class runtime, injecting inline styles dynamically without
-              a build step.
+              <code
+                style="
+                  font-family: var(--fm);
+                  font-size: 0.9em;
+                  color: var(--red);
+                "
+                >kata-*</code
+              >
+              class runtime, injecting inline styles dynamically without a build
+              step.
             </p>
             <div class="cta-row">
               <a href="./docs.html" class="cta-btn">Start Using KataCSS</a>
@@ -747,7 +796,6 @@
                 &lt;<span style="color: var(--red)">script</span>
                 <span style="font-weight: 500">src</span>=<br />
                 "https://cdn.jsdelivr.net/<br />npm/kata-css@latest/dist/kata.js"&gt;&lt;/script&gt;
-
               </div>
             </div>
           </div>
@@ -772,8 +820,11 @@
         <!-- MARQUEE -->
         <div class="marquee-wrap">
           <div class="marquee-text">
-            KATA·CSS &nbsp;·&nbsp; ZERO CONFIG &nbsp;·&nbsp; NO RUNTIME &nbsp;·&nbsp; JUST CLASSES &nbsp;·&nbsp; FLEXBOX &nbsp;·&nbsp; DISPLAY &nbsp;·&nbsp; TYPOGRAPHY &nbsp;·&nbsp;
-            SPACING &nbsp;·&nbsp; CHAI COLORS &nbsp;·&nbsp; POSITION &nbsp;·&nbsp; BORDER &nbsp;·&nbsp; AND MORE 
+            KATA·CSS &nbsp;·&nbsp; ZERO CONFIG &nbsp;·&nbsp; NO RUNTIME
+            &nbsp;·&nbsp; JUST CLASSES &nbsp;·&nbsp; FLEXBOX &nbsp;·&nbsp;
+            DISPLAY &nbsp;·&nbsp; TYPOGRAPHY &nbsp;·&nbsp; SPACING &nbsp;·&nbsp;
+            CHAI COLORS &nbsp;·&nbsp; POSITION &nbsp;·&nbsp; BORDER
+            &nbsp;·&nbsp; AND MORE
           </div>
         </div>
 
@@ -784,9 +835,12 @@
             <div class="cap-num">01</div>
             <div class="cap-title">Runtime Transform</div>
             <div class="cap-desc">
-              A utility-first framework that runs in the browser. KataCSS reads 
-              <code style="font-family: var(--fm); font-size: 0.9em">kata-*</code>
-              classes at runtime and injects styles instantly—no build step required.
+              A utility-first framework that runs in the browser. KataCSS reads
+              <code style="font-family: var(--fm); font-size: 0.9em"
+                >kata-*</code
+              >
+              classes at runtime and injects styles instantly—no build step
+              required.
             </div>
           </div>
           <div class="cap-item">
@@ -822,29 +876,55 @@
             <span class="install-col-label">Package Manager</span>
             <div class="install-code">
               <span>npm install kata-css</span>
-              <button class="copy-btn" onclick="copyText(this, 'npm install kata-css')">COPY</button>
+              <button
+                class="copy-btn"
+                onclick="copyText(this, 'npm install kata-css')"
+              >
+                COPY
+              </button>
             </div>
             <div class="install-note">
-              Then import "kata-css" in your JS entry file. Self-executes. No setup needed.
+              Then import "kata-css" in your JS entry file. Self-executes. No
+              setup needed.
             </div>
           </div>
           <div class="install-col">
             <span class="install-col-label">Direct Script</span>
             <div class="install-code">
-              <span>&lt;script src="https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js"&gt;&lt;/script&gt;</span>
-              <button class="copy-btn" onclick="copyText(this, '<script src=&quot;https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js&quot;></script>')" style="flex-shrink: 0">COPY</button>            </div>
+              <span
+                >&lt;script
+                src="https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js"&gt;&lt;/script&gt;</span
+              >
+              <button
+                class="copy-btn"
+                onclick="
+                  copyText(
+                    this,
+                    '<script src=&quot;https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js&quot;></script>',
+                  )
+                "
+                style="flex-shrink: 0"
+              >
+                COPY
+              </button>
+            </div>
             <div class="install-note">
-              Best for rapid prototyping and static sites. Works with zero Node.js.
+              Best for rapid prototyping and static sites. Works with zero
+              Node.js.
             </div>
           </div>
         </div>
 
         <!-- FOOTER -->
         <footer>
-          <span class="footer-copy">© 2024 KataCSS — Built for ChaiCode Cohort</span>
+          <span class="footer-copy"
+            >© 2024 KataCSS — Built for ChaiCode Cohort</span
+          >
           <div class="footer-links">
             <a href="./docs.html">Docs</a>
-            <a href="https://github.com/idreamfyrei/kata-css" target="_blank">GitHub</a>
+            <a href="https://github.com/idreamfyrei/kata-css" target="_blank"
+              >GitHub</a
+            >
             <a href="https://npmjs.com/package/kata-css" target="_blank">npm</a>
             <a href="https://x.com/_saumya_ag" target="_blank">Creator</a>
             <a href="https://chaicode.com" target="_blank">ChaiCode</a>
