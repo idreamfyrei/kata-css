@@ -55,7 +55,6 @@
         display: grid;
         grid-template-columns: 260px 1fr;
         min-height: 100vh;
-        /* no max-width — let it fill the viewport */
       }
 
       /* ── SIDEBAR ── */
@@ -121,40 +120,111 @@
         text-transform: uppercase;
       }
 
-      /* ── MAIN: flex column, clips to remaining width ── */
+      /* ── MAIN ── */
       .main-hero {
         display: flex;
         flex-direction: column;
-        min-width: 0; /* critical — prevents overflow past grid column */
+        min-width: 0;
         overflow: hidden;
       }
 
-      /* top nav */
+      /* ── TOP NAV ── */
       .top-nav {
         height: 52px;
         flex-shrink: 0;
         border-bottom: var(--b);
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
         padding: 0 2.5rem;
-        gap: 2rem;
+        gap: 1.5rem;
         font-family: var(--fm);
         font-size: 0.68rem;
         letter-spacing: 0.06em;
       }
-      .top-nav a {
+
+      /* Brand name on left */
+      .top-nav-brand {
+        font-family: var(--fm);
+        font-size: 0.82rem;
+        font-weight: 500;
+        letter-spacing: 0.06em;
+        color: var(--ink);
+        text-decoration: none;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .top-nav-brand:hover {
+        color: var(--red);
+      }
+
+      /* Links group on right */
+      .top-nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+      .top-nav-links a {
         text-decoration: none;
         color: var(--ink);
         transition: color 0.12s;
+        white-space: nowrap;
       }
-      .top-nav a:hover {
+      .top-nav-links a:hover {
         color: var(--red);
       }
-      .top-nav .div {
+      .top-nav-links .div {
         width: 1px;
         height: 16px;
         background: rgba(16, 16, 14, 0.2);
+      }
+
+      /* Mobile hamburger */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: var(--ink);
+        transition: all 0.2s;
+      }
+
+      /* Mobile nav drawer */
+      .mobile-nav {
+        display: none;
+        flex-direction: column;
+        background: var(--bg);
+        border-bottom: var(--b);
+        padding: 0.75rem 1.25rem;
+        gap: 0.1rem;
+      }
+      .mobile-nav.open {
+        display: flex;
+      }
+      .mobile-nav a {
+        font-family: var(--fm);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink);
+        text-decoration: none;
+        padding: 0.65rem 0;
+        border-bottom: 1px solid rgba(16,16,14,0.1);
+        transition: color 0.12s;
+      }
+      .mobile-nav a:last-child {
+        border-bottom: none;
+      }
+      .mobile-nav a:hover {
+        color: var(--red);
       }
 
       /* ── HERO ── */
@@ -308,12 +378,8 @@
         animation: marquee 28s linear infinite;
       }
       @keyframes marquee {
-        0% {
-          transform: translate(0, 0);
-        }
-        100% {
-          transform: translate(-100%, 0);
-        }
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(-100%, 0); }
       }
 
       /* ── CAPABILITIES ── */
@@ -509,6 +575,17 @@
         .sidebar {
           display: none;
         }
+        .top-nav {
+          height: auto;
+          padding: 0 1.5rem;
+          min-height: 52px;
+        }
+        .top-nav-links {
+          display: none; /* hidden on mobile, replaced by drawer */
+        }
+        .hamburger {
+          display: flex;
+        }
         .hero-content {
           grid-template-columns: 1fr;
           padding: 2.5rem 1.5rem;
@@ -536,10 +613,6 @@
         }
         .install-col:last-child {
           border-bottom: none;
-        }
-        .top-nav {
-          padding: 0 1.5rem;
-          gap: 1.25rem;
         }
         footer {
           flex-direction: column;
@@ -575,10 +648,7 @@
           border-bottom: none;
         }
         .top-nav {
-          height: auto;
-          padding: 0.75rem 1.25rem;
-          flex-wrap: wrap;
-          justify-content: flex-start;
+          padding: 0 1.25rem;
         }
         .install-code {
           flex-direction: column;
@@ -599,41 +669,50 @@
         <div class="logo-large">k<span>.</span></div>
         <nav>
           <ul class="nav-links">
-            <li><a href="docs.html">Documentation</a></li>
-            <li><a href="docs.html#sec-chaicode">ChaiCode Exclusive</a></li>
-            <li><a href="docs.html#sec-playground">Playground</a></li>
-            <li><a href="docs.html#sec-intellisense">IntelliSense</a></li>
-            <li>
-              <a
-                href="https://github.com/YOUR_USERNAME/kata-css"
-                target="_blank"
-                >GitHub ↗</a
-              >
-            </li>
-            <li>
-              <a href="https://npmjs.com/package/kata-css" target="_blank"
-                >npm ↗</a
-              >
-            </li>
+            <li><a href="./docs.html">Documentation</a></li>
+            <li><a href="https://github.com/idreamfyrei/kata-css" target="_blank">GitHub ↗</a></li>
+            <li><a href="https://www.npmjs.com/package/kata-css" target="_blank">npm ↗</a></li>
+            <li><a href="./docs.html#sec-playground">Playground</a></li>
+            <li><a href="./docs.html#sec-chaicode">ChaiCode Exclusive</a></li>
           </ul>
         </nav>
-        <div class="version-tag">Stable v1.0.0</div>
+        <div class="version-tag">Alpha v0.0.3</div>
       </aside>
 
       <!-- MAIN -->
       <main class="main-hero">
+
+        <!-- TOP NAV -->
         <header class="top-nav">
-          <a href="docs.html#sec-installation">Installation</a>
-          <a href="docs.html#sec-colors">Colors</a>
-          <a href="docs.html#sec-chaicode">ChaiCode</a>
-          <div class="div"></div>
-          <a
-            href="https://github.com/YOUR_USERNAME/kata-css"
-            target="_blank"
-            style="font-weight: 500"
-            >GitHub ↗</a
-          >
+          <!-- Brand left -->
+          <a href="./index.html" class="top-nav-brand">KataCSS</a>
+
+          <!-- Links right (desktop) -->
+          <div class="top-nav-links">
+            <a href="./docs.html#sec-installation">Installation</a>
+            <a href="./docs.html">Getting Started</a>
+            <div class="div"></div>
+            <a href="https://www.npmjs.com/package/kata-css" target="_blank" style="font-weight: 500">npm ↗</a>
+            <a href="https://github.com/idreamfyrei/kata-css" target="_blank" style="font-weight: 500">GitHub ↗</a>
+            <a href="https://x.com/_saumya_ag" target="_blank" style="font-weight: 500">Creator ↗</a>
+          </div>
+
+          <!-- Hamburger (mobile) -->
+          <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </header>
+
+        <!-- Mobile nav drawer -->
+        <nav class="mobile-nav" id="mobileNav">
+            <a href="./docs.html#sec-installation">Installation</a>
+            <a href="./docs.html">Getting Started</a>
+            <a href="https://www.npmjs.com/package/kata-css" target="_blank" style="font-weight: 500">npm ↗</a>
+            <a href="https://github.com/idreamfyrei/kata-css" target="_blank" style="font-weight: 500">GitHub ↗</a>
+            <a href="https://x.com/_saumya_ag" target="_blank" style="font-weight: 500">Creator ↗</a>
+        </nav>
 
         <!-- HERO -->
         <section class="hero-content">
@@ -641,21 +720,14 @@
             <h1 class="headline">Zero-Build<br />CSS<br />Transformation.</h1>
             <p class="sub-headline">
               The utility-first framework that lives in the browser. KataCSS
-              intercepts
-              <code
-                style="
-                  font-family: var(--fm);
-                  font-size: 0.9em;
-                  color: var(--red);
-                "
-                >kata-*</code
-              >
-              class definitions at runtime, injecting styles dynamically without
+              picks
+              <code style="font-family: var(--fm); font-size: 0.9em; color: var(--red)">kata-*</code>
+              class runtime, injecting inline styles dynamically without
               a build step.
             </p>
             <div class="cta-row">
-              <a href="docs.html" class="cta-btn">Get Started</a>
-              <span class="cta-meta">v1.0.0 — Zero dependencies</span>
+              <a href="./docs.html" class="cta-btn">Start Using KataCSS</a>
+              <span class="cta-meta">v0.0.3 - Zero dependencies</span>
             </div>
           </div>
 
@@ -670,11 +742,12 @@
               </div>
             </div>
             <div class="code-card light">
-              <span class="code-card-label">Direct Script / CDN</span>
+              <span class="code-card-label">CDN</span>
               <div class="code-content">
                 &lt;<span style="color: var(--red)">script</span>
                 <span style="font-weight: 500">src</span>=<br />
-                "https://cdn.jsdelivr.net/<br />npm/kata-css/dist/kata.js"&gt;&lt;/script&gt;
+                "https://cdn.jsdelivr.net/<br />npm/kata-css@latest/dist/kata.js"&gt;&lt;/script&gt;
+
               </div>
             </div>
           </div>
@@ -699,13 +772,8 @@
         <!-- MARQUEE -->
         <div class="marquee-wrap">
           <div class="marquee-text">
-            FLEXBOX &nbsp;·&nbsp; GRID &nbsp;·&nbsp; TYPOGRAPHY &nbsp;·&nbsp;
-            SPACING &nbsp;·&nbsp; CHAI COLORS &nbsp;·&nbsp; ZERO CONFIG
-            &nbsp;·&nbsp; NO RUNTIME &nbsp;·&nbsp; JUST CLASSES &nbsp;·&nbsp;
-            KATACSS &nbsp;·&nbsp; FLEXBOX &nbsp;·&nbsp; GRID &nbsp;·&nbsp;
-            TYPOGRAPHY &nbsp;·&nbsp; SPACING &nbsp;·&nbsp; CHAI COLORS
-            &nbsp;·&nbsp; ZERO CONFIG &nbsp;·&nbsp; NO RUNTIME &nbsp;·&nbsp;
-            JUST CLASSES &nbsp;·&nbsp; KATACSS &nbsp;·&nbsp;
+            KATA·CSS &nbsp;·&nbsp; ZERO CONFIG &nbsp;·&nbsp; NO RUNTIME &nbsp;·&nbsp; JUST CLASSES &nbsp;·&nbsp; FLEXBOX &nbsp;·&nbsp; DISPLAY &nbsp;·&nbsp; TYPOGRAPHY &nbsp;·&nbsp;
+            SPACING &nbsp;·&nbsp; CHAI COLORS &nbsp;·&nbsp; POSITION &nbsp;·&nbsp; BORDER &nbsp;·&nbsp; AND MORE 
           </div>
         </div>
 
@@ -716,17 +784,14 @@
             <div class="cap-num">01</div>
             <div class="cap-title">Runtime Transform</div>
             <div class="cap-desc">
-              Dynamic style injection at runtime. Scans
-              <code style="font-family: var(--fm); font-size: 0.9em"
-                >kata-*</code
-              >
-              classes on DOMContentLoaded and converts them to inline styles
-              instantly.
+              A utility-first framework that runs in the browser. KataCSS reads 
+              <code style="font-family: var(--fm); font-size: 0.9em">kata-*</code>
+              classes at runtime and injects styles instantly—no build step required.
             </div>
           </div>
           <div class="cap-item">
             <div class="cap-num">02</div>
-            <div class="cap-title">Zero Config</div>
+            <div class="cap-title">No Setup Needed</div>
             <div class="cap-desc">
               Drop it in and start coding. No build steps, no config files, no
               PostCSS, no purge setup. One script tag.
@@ -757,57 +822,32 @@
             <span class="install-col-label">Package Manager</span>
             <div class="install-code">
               <span>npm install kata-css</span>
-              <button
-                class="copy-btn"
-                onclick="copyText(this, 'npm install kata-css')"
-              >
-                COPY
-              </button>
+              <button class="copy-btn" onclick="copyText(this, 'npm install kata-css')">COPY</button>
             </div>
             <div class="install-note">
-              Then import "kata-css" in your JS entry file. Self-executes — no
-              setup needed.
+              Then import "kata-css" in your JS entry file. Self-executes. No setup needed.
             </div>
           </div>
           <div class="install-col">
             <span class="install-col-label">Direct Script</span>
             <div class="install-code">
-              <span
-                >&lt;script
-                src="https://cdn.jsdelivr.net/npm/kata-css/dist/kata.js"&gt;&lt;/script&gt;</span
-              >
-              <button
-                class="copy-btn"
-                onclick="
-                  copyText(
-                    this,
-                    '<script src=&quot;https://cdn.jsdelivr.net/npm/kata-css/dist/kata.js&quot;></script>',
-                  )
-                "
-                style="flex-shrink: 0"
-              >
-                COPY
-              </button>
-            </div>
+              <span>&lt;script src="https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js"&gt;&lt;/script&gt;</span>
+              <button class="copy-btn" onclick="copyText(this, '<script src=&quot;https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js&quot;></script>')" style="flex-shrink: 0">COPY</button>            </div>
             <div class="install-note">
-              Best for rapid prototyping and static sites. Works with zero
-              Node.js.
+              Best for rapid prototyping and static sites. Works with zero Node.js.
             </div>
           </div>
         </div>
 
         <!-- FOOTER -->
         <footer>
-          <span class="footer-copy"
-            >© 2024 KataCSS — Built for ChaiCode Cohort</span
-          >
+          <span class="footer-copy">© 2024 KataCSS — Built for ChaiCode Cohort</span>
           <div class="footer-links">
-            <a href="https://github.com/YOUR_USERNAME/kata-css" target="_blank"
-              >GitHub</a
-            >
+            <a href="./docs.html">Docs</a>
+            <a href="https://github.com/idreamfyrei/kata-css" target="_blank">GitHub</a>
             <a href="https://npmjs.com/package/kata-css" target="_blank">npm</a>
+            <a href="https://x.com/_saumya_ag" target="_blank">Creator</a>
             <a href="https://chaicode.com" target="_blank">ChaiCode</a>
-            <a href="docs.html">Docs</a>
           </div>
         </footer>
       </main>
@@ -829,6 +869,13 @@
         t.classList.add("show");
         setTimeout(() => t.classList.remove("show"), 1800);
       }
+
+      // Hamburger toggle
+      const hamburger = document.getElementById("hamburger");
+      const mobileNav = document.getElementById("mobileNav");
+      hamburger.addEventListener("click", () => {
+        mobileNav.classList.toggle("open");
+      });
     </script>
   </body>
 </html>
