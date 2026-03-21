@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KataCSS — Utility-First Without The Build Step</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f3ead6;
+        --bg2: #ece3ca;
+        --bg3: #e4dbbf;
+        --ink: #10100e;
+        --ink2: #2a2a26;
+        --ink3: #6b6b5e;
+        --ink4: #9a9a88;
+        --red: #d94f3d;
+        --b: 1px solid #10100e;
+        --bl: 1px solid rgba(16, 16, 14, 0.15);
+        --fh: "Satoshi", "Helvetica Neue", sans-serif;
+        --fm: "IBM Plex Mono", monospace;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--fh);
+        line-height: 1.4;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      /* ── ROOT GRID: sidebar fixed, main fills remaining ── */
+      .landing-grid {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        min-height: 100vh;
+        /* no max-width — let it fill the viewport */
+      }
+
+      /* ── SIDEBAR ── */
+      .sidebar {
+        border-right: var(--b);
+        padding: 2rem 1.75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: var(--bg);
+        z-index: 10;
+      }
+      .logo-large {
+        font-family: var(--fh);
+        font-size: 6.5rem;
+        font-weight: 900;
+        letter-spacing: -0.07em;
+        line-height: 0.8;
+        color: var(--ink);
+        user-select: none;
+        margin-left: -0.3rem;
+      }
+      .logo-large span {
+        color: var(--red);
+      }
+
+      .nav-links {
+        list-style: none;
+        font-family: var(--fm);
+        text-transform: uppercase;
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        font-weight: 500;
+      }
+      .nav-links li {
+        margin-bottom: 0.8rem;
+      }
+      .nav-links a {
+        color: var(--ink);
+        text-decoration: none;
+        display: block;
+        padding: 0.35rem 0;
+        border-bottom: 1px solid transparent;
+        transition:
+          border-color 0.15s,
+          color 0.15s;
+      }
+      .nav-links a:hover {
+        border-bottom-color: var(--ink);
+        color: var(--red);
+      }
+
+      .version-tag {
+        font-family: var(--fm);
+        font-size: 0.62rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        color: var(--ink3);
+        text-transform: uppercase;
+      }
+
+      /* ── MAIN: flex column, clips to remaining width ── */
+      .main-hero {
+        display: flex;
+        flex-direction: column;
+        min-width: 0; /* critical — prevents overflow past grid column */
+        overflow: hidden;
+      }
+
+      /* top nav */
+      .top-nav {
+        height: 52px;
+        flex-shrink: 0;
+        border-bottom: var(--b);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0 2.5rem;
+        gap: 2rem;
+        font-family: var(--fm);
+        font-size: 0.68rem;
+        letter-spacing: 0.06em;
+      }
+      .top-nav a {
+        text-decoration: none;
+        color: var(--ink);
+        transition: color 0.12s;
+      }
+      .top-nav a:hover {
+        color: var(--red);
+      }
+      .top-nav .div {
+        width: 1px;
+        height: 16px;
+        background: rgba(16, 16, 14, 0.2);
+      }
+
+      /* ── HERO ── */
+      .hero-content {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 3rem;
+        padding: 4rem 3rem;
+        border-bottom: var(--b);
+        align-items: start;
+      }
+      .headline {
+        font-family: var(--fh);
+        font-size: clamp(2.4rem, 4vw, 4.5rem);
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        margin-bottom: 2rem;
+        color: var(--ink);
+      }
+      .sub-headline {
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.65;
+        margin-bottom: 2.5rem;
+        color: var(--ink2);
+      }
+      .cta-row {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .cta-btn {
+        display: inline-block;
+        background: var(--ink);
+        color: var(--bg);
+        padding: 0.9rem 2rem;
+        text-decoration: none;
+        font-family: var(--fm);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-size: 0.7rem;
+        transition: background 0.15s;
+        white-space: nowrap;
+      }
+      .cta-btn:hover {
+        background: var(--red);
+      }
+      .cta-meta {
+        font-family: var(--fm);
+        font-size: 0.62rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink3);
+      }
+
+      /* code cards */
+      .snippets-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .code-card {
+        background: var(--ink);
+        color: var(--bg);
+        padding: 1.5rem;
+        border: var(--b);
+        min-width: 0;
+      }
+      .code-card.light {
+        background: var(--bg2);
+        color: var(--ink);
+      }
+      .code-card-label {
+        font-family: var(--fm);
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.75rem;
+        display: block;
+        opacity: 0.4;
+      }
+      .code-content {
+        font-family: var(--fm);
+        font-size: 0.78rem;
+        line-height: 1.7;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+      }
+      .cs {
+        color: #8db87a;
+      }
+      .cc {
+        color: rgba(243, 234, 214, 0.35);
+      }
+
+      /* ── STATS BAR ── */
+      .stats-bar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border-bottom: var(--b);
+        flex-shrink: 0;
+      }
+      .stat-item {
+        padding: 2rem 2rem;
+        border-right: var(--b);
+      }
+      .stat-item:last-child {
+        border-right: none;
+      }
+      .stat-val {
+        font-family: var(--fh);
+        font-size: 2.5rem;
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 0.35rem;
+        letter-spacing: -0.04em;
+        color: var(--ink);
+      }
+      .stat-val em {
+        font-style: normal;
+        color: var(--red);
+      }
+      .stat-lbl {
+        font-family: var(--fm);
+        font-size: 0.62rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--ink3);
+      }
+
+      /* ── MARQUEE ── */
+      .marquee-wrap {
+        background: var(--ink);
+        overflow: hidden;
+        white-space: nowrap;
+        padding: 0.8rem 0;
+        flex-shrink: 0;
+      }
+      .marquee-text {
+        display: inline-block;
+        font-family: var(--fm);
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--bg);
+        padding-left: 100%;
+        animation: marquee 28s linear infinite;
+      }
+      @keyframes marquee {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(-100%, 0);
+        }
+      }
+
+      /* ── CAPABILITIES ── */
+      .section-label {
+        display: block;
+        font-family: var(--fm);
+        font-size: 0.62rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--ink3);
+        padding: 0.85rem 0.5rem;
+        border-bottom: var(--b);
+      }
+      .caps-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border-bottom: var(--b);
+      }
+      .cap-item {
+        padding: 1.75rem 1.75rem 2.25rem;
+        border-right: var(--b);
+        transition: background 0.15s;
+      }
+      .cap-item:last-child {
+        border-right: none;
+      }
+      .cap-item:hover {
+        background: var(--bg2);
+      }
+      .cap-num {
+        font-family: var(--fh);
+        font-size: 1.35rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        color: var(--ink);
+        margin-bottom: 1.25rem;
+        line-height: 1;
+      }
+      .cap-title {
+        font-family: var(--fh);
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 0.65rem;
+        color: var(--ink);
+      }
+      .cap-desc {
+        font-size: 0.82rem;
+        color: var(--ink3);
+        line-height: 1.6;
+      }
+
+      /* ── INSTALLATION ── */
+      .install-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border-bottom: var(--b);
+        background: var(--bg2);
+      }
+      .install-col {
+        padding: 2.25rem 2.25rem 2.75rem;
+        border-right: var(--b);
+      }
+      .install-col:last-child {
+        border-right: none;
+      }
+      .install-col-label {
+        font-family: var(--fm);
+        font-size: 0.62rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--ink3);
+        margin-bottom: 1.25rem;
+        display: block;
+      }
+      .install-code {
+        background: var(--ink);
+        color: var(--bg);
+        padding: 1.1rem 1.25rem;
+        font-family: var(--fm);
+        font-size: 0.78rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 0.85rem;
+      }
+      .install-code span {
+        word-break: break-word;
+        overflow-wrap: anywhere;
+      }
+      .copy-btn {
+        font-family: var(--fm);
+        font-size: 0.58rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(243, 234, 214, 0.4);
+        cursor: pointer;
+        border: none;
+        background: none;
+        transition: color 0.12s;
+        padding: 0;
+        flex-shrink: 0;
+      }
+      .copy-btn:hover {
+        color: var(--bg);
+      }
+      .copy-btn.done {
+        color: #22a55e;
+      }
+      .install-note {
+        font-family: var(--fm);
+        font-size: 0.68rem;
+        color: var(--ink4);
+        line-height: 1.5;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem 2rem;
+        border-top: var(--b);
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .footer-copy {
+        font-family: var(--fm);
+        font-size: 0.62rem;
+        color: var(--ink3);
+        letter-spacing: 0.04em;
+      }
+      .footer-links {
+        display: flex;
+        gap: 1.5rem;
+      }
+      .footer-links a {
+        font-family: var(--fm);
+        font-size: 0.62rem;
+        color: var(--ink3);
+        text-decoration: none;
+        letter-spacing: 0.04em;
+        transition: color 0.12s;
+      }
+      .footer-links a:hover {
+        color: var(--red);
+      }
+
+      /* toast */
+      #toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(40px);
+        background: var(--ink);
+        color: var(--bg);
+        font-family: var(--fm);
+        font-size: 0.72rem;
+        padding: 8px 18px;
+        z-index: 9999;
+        transition: all 0.18s;
+        pointer-events: none;
+        opacity: 0;
+      }
+      #toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+
+      /* ── RESPONSIVE ── */
+      @media (max-width: 1100px) {
+        .caps-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .cap-item {
+          border-bottom: var(--b);
+        }
+        .cap-item:nth-child(2n) {
+          border-right: none;
+        }
+        .cap-item:nth-last-child(-n + 2) {
+          border-bottom: none;
+        }
+      }
+
+      @media (max-width: 860px) {
+        .landing-grid {
+          grid-template-columns: 1fr;
+        }
+        .sidebar {
+          display: none;
+        }
+        .hero-content {
+          grid-template-columns: 1fr;
+          padding: 2.5rem 1.5rem;
+          gap: 2rem;
+        }
+        .stats-bar {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stat-item:nth-child(2) {
+          border-right: none;
+        }
+        .stat-item:nth-child(n + 3) {
+          border-top: var(--b);
+          border-right: none;
+        }
+        .caps-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .install-grid {
+          grid-template-columns: 1fr;
+        }
+        .install-col {
+          border-right: none;
+          border-bottom: var(--b);
+        }
+        .install-col:last-child {
+          border-bottom: none;
+        }
+        .top-nav {
+          padding: 0 1.5rem;
+          gap: 1.25rem;
+        }
+        footer {
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .hero-content {
+          padding: 2rem 1.25rem;
+        }
+        .headline {
+          font-size: 2.25rem;
+        }
+        .stats-bar {
+          grid-template-columns: 1fr;
+        }
+        .stat-item {
+          border-right: none;
+          border-bottom: var(--b);
+        }
+        .stat-item:last-child {
+          border-bottom: none;
+        }
+        .caps-grid {
+          grid-template-columns: 1fr;
+        }
+        .cap-item {
+          border-right: none;
+          border-bottom: var(--b);
+        }
+        .cap-item:last-child {
+          border-bottom: none;
+        }
+        .top-nav {
+          height: auto;
+          padding: 0.75rem 1.25rem;
+          flex-wrap: wrap;
+          justify-content: flex-start;
+        }
+        .install-code {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .copy-btn {
+          align-self: flex-end;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toast"></div>
+
+    <div class="landing-grid">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="logo-large">k<span>.</span></div>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="docs.html">Documentation</a></li>
+            <li><a href="docs.html#sec-chaicode">ChaiCode Exclusive</a></li>
+            <li><a href="docs.html#sec-playground">Playground</a></li>
+            <li><a href="docs.html#sec-intellisense">IntelliSense</a></li>
+            <li>
+              <a
+                href="https://github.com/YOUR_USERNAME/kata-css"
+                target="_blank"
+                >GitHub ↗</a
+              >
+            </li>
+            <li>
+              <a href="https://npmjs.com/package/kata-css" target="_blank"
+                >npm ↗</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <div class="version-tag">Stable v1.0.0</div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="main-hero">
+        <header class="top-nav">
+          <a href="docs.html#sec-installation">Installation</a>
+          <a href="docs.html#sec-colors">Colors</a>
+          <a href="docs.html#sec-chaicode">ChaiCode</a>
+          <div class="div"></div>
+          <a
+            href="https://github.com/YOUR_USERNAME/kata-css"
+            target="_blank"
+            style="font-weight: 500"
+            >GitHub ↗</a
+          >
+        </header>
+
+        <!-- HERO -->
+        <section class="hero-content">
+          <div>
+            <h1 class="headline">Zero-Build<br />CSS<br />Transformation.</h1>
+            <p class="sub-headline">
+              The utility-first framework that lives in the browser. KataCSS
+              intercepts
+              <code
+                style="
+                  font-family: var(--fm);
+                  font-size: 0.9em;
+                  color: var(--red);
+                "
+                >kata-*</code
+              >
+              class definitions at runtime, injecting styles dynamically without
+              a build step.
+            </p>
+            <div class="cta-row">
+              <a href="docs.html" class="cta-btn">Get Started</a>
+              <span class="cta-meta">v1.0.0 — Zero dependencies</span>
+            </div>
+          </div>
+
+          <div class="snippets-stack">
+            <div class="code-card">
+              <span class="code-card-label">Package Manager</span>
+              <div class="code-content">
+                <span style="opacity: 0.4">$</span> npm install kata-css<br />
+                <span class="cc">// import into your entry file</span><br />
+                <span style="color: var(--bg)">import</span>
+                <span class="cs">"kata-css"</span>;
+              </div>
+            </div>
+            <div class="code-card light">
+              <span class="code-card-label">Direct Script / CDN</span>
+              <div class="code-content">
+                &lt;<span style="color: var(--red)">script</span>
+                <span style="font-weight: 500">src</span>=<br />
+                "https://cdn.jsdelivr.net/<br />npm/kata-css/dist/kata.js"&gt;&lt;/script&gt;
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- STATS -->
+        <div class="stats-bar">
+          <div class="stat-item">
+            <div class="stat-val"><em>0</em></div>
+            <div class="stat-lbl">Build Steps Required</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-val">96</div>
+            <div class="stat-lbl">Spacing Steps</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-val">50<em>+</em></div>
+            <div class="stat-lbl">Chai Color Tokens</div>
+          </div>
+        </div>
+
+        <!-- MARQUEE -->
+        <div class="marquee-wrap">
+          <div class="marquee-text">
+            FLEXBOX &nbsp;·&nbsp; GRID &nbsp;·&nbsp; TYPOGRAPHY &nbsp;·&nbsp;
+            SPACING &nbsp;·&nbsp; CHAI COLORS &nbsp;·&nbsp; ZERO CONFIG
+            &nbsp;·&nbsp; NO RUNTIME &nbsp;·&nbsp; JUST CLASSES &nbsp;·&nbsp;
+            KATACSS &nbsp;·&nbsp; FLEXBOX &nbsp;·&nbsp; GRID &nbsp;·&nbsp;
+            TYPOGRAPHY &nbsp;·&nbsp; SPACING &nbsp;·&nbsp; CHAI COLORS
+            &nbsp;·&nbsp; ZERO CONFIG &nbsp;·&nbsp; NO RUNTIME &nbsp;·&nbsp;
+            JUST CLASSES &nbsp;·&nbsp; KATACSS &nbsp;·&nbsp;
+          </div>
+        </div>
+
+        <!-- CAPABILITIES -->
+        <span class="section-label">Capabilities &nbsp;/&nbsp; 01</span>
+        <div class="caps-grid">
+          <div class="cap-item">
+            <div class="cap-num">01</div>
+            <div class="cap-title">Runtime Transform</div>
+            <div class="cap-desc">
+              Dynamic style injection at runtime. Scans
+              <code style="font-family: var(--fm); font-size: 0.9em"
+                >kata-*</code
+              >
+              classes on DOMContentLoaded and converts them to inline styles
+              instantly.
+            </div>
+          </div>
+          <div class="cap-item">
+            <div class="cap-num">02</div>
+            <div class="cap-title">Zero Config</div>
+            <div class="cap-desc">
+              Drop it in and start coding. No build steps, no config files, no
+              PostCSS, no purge setup. One script tag.
+            </div>
+          </div>
+          <div class="cap-item">
+            <div class="cap-num">03</div>
+            <div class="cap-title">CDN Ready</div>
+            <div class="cap-desc">
+              Serve via jsDelivr or npm. Works in static HTML, React, Vue,
+              Svelte — anywhere you write a class attribute.
+            </div>
+          </div>
+          <div class="cap-item">
+            <div class="cap-num">04</div>
+            <div class="cap-title">Chai Color Scheme</div>
+            <div class="cap-desc">
+              50+ color tokens named after real chai and tea varieties. A
+              ChaiCode cohort original. Works with text, bg, and border.
+            </div>
+          </div>
+        </div>
+
+        <!-- INSTALLATION -->
+        <span class="section-label">Installation &nbsp;/&nbsp; 02</span>
+        <div class="install-grid">
+          <div class="install-col">
+            <span class="install-col-label">Package Manager</span>
+            <div class="install-code">
+              <span>npm install kata-css</span>
+              <button
+                class="copy-btn"
+                onclick="copyText(this, 'npm install kata-css')"
+              >
+                COPY
+              </button>
+            </div>
+            <div class="install-note">
+              Then import "kata-css" in your JS entry file. Self-executes — no
+              setup needed.
+            </div>
+          </div>
+          <div class="install-col">
+            <span class="install-col-label">Direct Script</span>
+            <div class="install-code">
+              <span
+                >&lt;script
+                src="https://cdn.jsdelivr.net/npm/kata-css/dist/kata.js"&gt;&lt;/script&gt;</span
+              >
+              <button
+                class="copy-btn"
+                onclick="
+                  copyText(
+                    this,
+                    '<script src=&quot;https://cdn.jsdelivr.net/npm/kata-css/dist/kata.js&quot;></script>',
+                  )
+                "
+                style="flex-shrink: 0"
+              >
+                COPY
+              </button>
+            </div>
+            <div class="install-note">
+              Best for rapid prototyping and static sites. Works with zero
+              Node.js.
+            </div>
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+          <span class="footer-copy"
+            >© 2024 KataCSS — Built for ChaiCode Cohort</span
+          >
+          <div class="footer-links">
+            <a href="https://github.com/YOUR_USERNAME/kata-css" target="_blank"
+              >GitHub</a
+            >
+            <a href="https://npmjs.com/package/kata-css" target="_blank">npm</a>
+            <a href="https://chaicode.com" target="_blank">ChaiCode</a>
+            <a href="docs.html">Docs</a>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <script>
+      function copyText(btn, text) {
+        navigator.clipboard.writeText(text);
+        btn.textContent = "DONE";
+        btn.classList.add("done");
+        setTimeout(() => {
+          btn.textContent = "COPY";
+          btn.classList.remove("done");
+        }, 1800);
+      }
+      function toast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 1800);
+      }
+    </script>
+  </body>
+</html>

@@ -1,16 +1,26 @@
-# KataCSS
 
-A utility-first inline CSS engine. Write `kata-*` classes, get inline styles. No build step, no config, no compiler.
+
+<h1 align="center">KataCSS</h1>
+
+<p align="center">
+  A utility-first inline CSS engine. Write <code>kata-*</code> classes, get inline styles.<br/>
+  No build step, no config, no compiler.
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/kata-css"><img src="https://img.shields.io/npm/v/kata-css" alt="npm version"/></a>
+  <a href="https://www.npmjs.com/package/kata-css"><img src="https://img.shields.io/npm/dw/kata-css" alt="npm downloads"/></a>
+</p>
 
 ---
 
-## What this is
+## What is KataCSS?
 
-KataCSS reads `kata-*` class names on your HTML elements and converts them into inline CSS styles when the page loads. That's the whole thing.
+KataCSS reads `kata-*` class names on your HTML elements and converts them into inline CSS styles the moment the page loads. That's the whole thing.
 
-No PostCSS. No JIT. No purge configuration. You add a script tag or an npm import, write some classes, open the browser, and it works.
+No PostCSS. No JIT compiler. No purge configuration to think about. Drop a script tag in, write some classes, open the browser, and it works.
 
-The spacing scale is `i × 0.25rem` — so `kata-p-4` is `1rem`, same as Tailwind. If you've used Tailwind before, the spacing feels immediately familiar.
+The spacing scale is `i × 0.25rem` so `kata-p-4` gives you `1rem`, same as Tailwind. If you've used Tailwind before, the muscle memory transfers instantly.
 
 ---
 
@@ -21,12 +31,10 @@ The spacing scale is `i × 0.25rem` — so `kata-p-4` is `1rem`, same as Tailwin
 ```html
 <script src="https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js"></script>
 ```
-Drop the script tag and start using styling by typing `kata-` followed by style
+
+Paste this into your HTML and start styling immediately.
 
 ### npm
-
-[![npm version](https://img.shields.io/npm/v/kata-css)](https://www.npmjs.com/package/kata-css)
-[![npm downloads](https://img.shields.io/npm/dw/kata-css)](https://www.npmjs.com/package/kata-css)
 
 ```bash
 npm install kata-css
@@ -36,11 +44,11 @@ npm install kata-css
 import "kata-css";
 ```
 
-That single import is all you need. It self-executes — no initialization, no setup object.
+That single import is all you need. It self-executes, no initialization function to call, no setup object to configure.
 
 ---
 
-## How it works
+## How it Works
 
 KataCSS listens for `DOMContentLoaded`. Once the DOM is ready, it scans every element with a class attribute, finds anything starting with `kata-`, looks it up in a flat key-value map, writes the result as an inline `style`, and removes the original class.
 
@@ -50,28 +58,26 @@ Browser parses HTML
   → DOM finishes loading
   → KataCSS scans all elements
   → finds kata-* classes
-  → looks up each in classMap
+  → looks kata- classes in classMap
   → writes inline style attribute
   → removes kata-* classes from classList
 ```
 
-Nothing left behind. No `kata-*` classes in the final DOM, just plain inline styles.
-
-If you write a class that doesn't exist in the map, KataCSS tells you:
+Nothing left behind. No `kata-*` classes in the final DOM — just clean inline styles. If you write a class that doesn't exist in the map, KataCSS tells you:
 
 ```
-[kata-css] Unknown class: "kata-xyz"
+[kata-css] Unknown class: "kata-[style]"
 ```
 
 ---
 
-## Basic usage
+## Basic Usage
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/kata-css@latest/dist/kata.min.js"></script>
 </head>
 <body>
 
@@ -89,9 +95,9 @@ If you write a class that doesn't exist in the map, KataCSS tells you:
 
 ---
 
-## Spacing scale
+## Spacing Scale
 
-All spacing utilities multiply by `0.25rem`. Scale runs 0 to 96.
+All spacing utilities multiply by `0.25rem`. The scale runs 0 to 96. No decimals in class names, need `0.75rem`? Use `kata-p-3`.
 
 | Class | Value |
 |---|---|
@@ -101,99 +107,99 @@ All spacing utilities multiply by `0.25rem`. Scale runs 0 to 96.
 | `kata-p-8` | `2rem` (32px) |
 | `kata-p-16` | `4rem` (64px) |
 
-No decimals in class names. Need `0.75rem`? Use `kata-p-3`.
-
 ### Padding
 
-```
-kata-p-{n}      padding: n×0.25rem
-kata-px-{n}     padding-left + padding-right
-kata-py-{n}     padding-top + padding-bottom
-kata-pt-{n}     padding-top
-kata-pb-{n}     padding-bottom
-kata-pl-{n}     padding-left
-kata-pr-{n}     padding-right
-```
+| Class | Property |
+|---|---|
+| `kata-p-{n}` | `padding: n×0.25rem` |
+| `kata-px-{n}` | `padding-left + padding-right` |
+| `kata-py-{n}` | `padding-top + padding-bottom` |
+| `kata-pt-{n}` | `padding-top` |
+| `kata-pb-{n}` | `padding-bottom` |
+| `kata-pl-{n}` | `padding-left` |
+| `kata-pr-{n}` | `padding-right` |
 
 ### Margin
 
-```
-kata-m-{n}      margin: n×0.25rem
-kata-mx-{n}     margin-left + margin-right
-kata-my-{n}     margin-top + margin-bottom
-kata-mt-{n}     margin-top
-kata-mb-{n}     margin-bottom
-kata-ml-{n}     margin-left
-kata-mr-{n}     margin-right
-kata-m-auto     margin: auto
-kata-mx-auto    margin-left: auto; margin-right: auto
-kata-my-auto    margin-top: auto; margin-bottom: auto
-kata-mt-auto    margin-top: auto
-kata-mb-auto    margin-bottom: auto
-kata-ml-auto    margin-left: auto
-kata-mr-auto    margin-right: auto
-```
+| Class | Property |
+|---|---|
+| `kata-m-{n}` | `margin: n×0.25rem` |
+| `kata-mx-{n}` | `margin-left + margin-right` |
+| `kata-my-{n}` | `margin-top + margin-bottom` |
+| `kata-mt-{n}` | `margin-top` |
+| `kata-mb-{n}` | `margin-bottom` |
+| `kata-ml-{n}` | `margin-left` |
+| `kata-mr-{n}` | `margin-right` |
+| `kata-m-auto` | `margin: auto` |
+| `kata-mx-auto` | `margin-left: auto; margin-right: auto` |
+| `kata-my-auto` | `margin-top: auto; margin-bottom: auto` |
+| `kata-mt-auto` | `margin-top: auto` |
+| `kata-mb-auto` | `margin-bottom: auto` |
+| `kata-ml-auto` | `margin-left: auto` |
+| `kata-mr-auto` | `margin-right: auto` |
 
 ### Gap
 
-```
-kata-gap-{n}    gap: n×0.25rem
-kata-gap-x-{n}  column-gap: n×0.25rem
-kata-gap-y-{n}  row-gap: n×0.25rem
-```
+| Class | Property |
+|---|---|
+| `kata-gap-{n}` | `gap: n×0.25rem` |
+| `kata-gap-x-{n}` | `column-gap: n×0.25rem` |
+| `kata-gap-y-{n}` | `row-gap: n×0.25rem` |
 
 ---
 
-## Width
+## Sizing
 
-```
-kata-w-{0–96}   width: n×0.25rem
-kata-w-auto     width: auto
-kata-w-full     width: 100%
-kata-w-half     width: 50%
-kata-w-screen   width: 100vw
-kata-w-min      width: min-content
-kata-w-max      width: max-content
-kata-w-fit      width: fit-content
-```
+### Width
 
-## Height
+| Class | Value |
+|---|---|
+| `kata-w-{0–96}` | `width: n×0.25rem` |
+| `kata-w-auto` | `width: auto` |
+| `kata-w-full` | `width: 100%` |
+| `kata-w-half` | `width: 50%` |
+| `kata-w-screen` | `width: 100vw` |
+| `kata-w-min` | `width: min-content` |
+| `kata-w-max` | `width: max-content` |
+| `kata-w-fit` | `width: fit-content` |
 
-```
-kata-h-{0–96}   height: n×0.25rem
-kata-h-auto     height: auto
-kata-h-full     height: 100%
-kata-h-half     height: 50%
-kata-h-screen   height: 100vh
-kata-h-min      height: min-content
-kata-h-max      height: max-content
-kata-h-fit      height: fit-content
-```
+### Height
+
+| Class | Value |
+|---|---|
+| `kata-h-{0–96}` | `height: n×0.25rem` |
+| `kata-h-auto` | `height: auto` |
+| `kata-h-full` | `height: 100%` |
+| `kata-h-half` | `height: 50%` |
+| `kata-h-screen` | `height: 100vh` |
+| `kata-h-min` | `height: min-content` |
+| `kata-h-max` | `height: max-content` |
+| `kata-h-fit` | `height: fit-content` |
 
 ---
 
-## Box sizing
+## Box Sizing
 
-```
-kata-box-border     box-sizing: border-box
-kata-box-content    box-sizing: content-box
-```
+| Class | Value |
+|---|---|
+| `kata-box-border` | `box-sizing: border-box` |
+| `kata-box-content` | `box-sizing: content-box` |
 
 ---
 
 ## Display
 
-```
-kata-block          display: block
-kata-inline         display: inline
-kata-inline-block   display: inline-block
-kata-flex           display: flex
-kata-inline-flex    display: inline-flex
-kata-grid           display: grid
-kata-inline-grid    display: inline-grid
-kata-hidden         display: none
-kata-contents       display: contents
-```
+| Class | Value |
+|---|---|
+| `kata-block` | `display: block` |
+| `kata-inline` | `display: inline` |
+| `kata-inline-block` | `display: inline-block` |
+| `kata-flex` | `display: flex` |
+| `kata-inline-flex` | `display: inline-flex` |
+| `kata-grid` | `display: grid` |
+| `kata-inline-grid` | `display: inline-grid` |
+| `kata-hidden` | `display: none` |
+| `kata-contents` | `display: contents` |
 
 ---
 
@@ -201,171 +207,171 @@ kata-contents       display: contents
 
 ### Direction
 
-```
-kata-flex-row           flex-direction: row
-kata-flex-row-reverse   flex-direction: row-reverse
-kata-flex-col           flex-direction: column
-kata-flex-col-reverse   flex-direction: column-reverse
-```
+| Class | Value |
+|---|---|
+| `kata-flex-row` | `flex-direction: row` |
+| `kata-flex-row-reverse` | `flex-direction: row-reverse` |
+| `kata-flex-col` | `flex-direction: column` |
+| `kata-flex-col-reverse` | `flex-direction: column-reverse` |
 
 ### Wrap
 
-```
-kata-flex-wrap          flex-wrap: wrap
-kata-flex-wrap-reverse  flex-wrap: wrap-reverse
-kata-flex-nowrap        flex-wrap: nowrap
-```
+| Class | Value |
+|---|---|
+| `kata-flex-wrap` | `flex-wrap: wrap` |
+| `kata-flex-wrap-reverse` | `flex-wrap: wrap-reverse` |
+| `kata-flex-nowrap` | `flex-wrap: nowrap` |
 
-### Justify content
+### Justify Content
 
-```
-kata-justify-start      justify-content: flex-start
-kata-justify-end        justify-content: flex-end
-kata-justify-center     justify-content: center
-kata-justify-between    justify-content: space-between
-kata-justify-around     justify-content: space-around
-kata-justify-evenly     justify-content: space-evenly
-```
+| Class | Value |
+|---|---|
+| `kata-justify-start` | `justify-content: flex-start` |
+| `kata-justify-end` | `justify-content: flex-end` |
+| `kata-justify-center` | `justify-content: center` |
+| `kata-justify-between` | `justify-content: space-between` |
+| `kata-justify-around` | `justify-content: space-around` |
+| `kata-justify-evenly` | `justify-content: space-evenly` |
 
-### Align items
+### Align Items
 
-```
-kata-items-start        align-items: flex-start
-kata-items-end          align-items: flex-end
-kata-items-center       align-items: center
-kata-items-baseline     align-items: baseline
-kata-items-stretch      align-items: stretch
-```
+| Class | Value |
+|---|---|
+| `kata-items-start` | `align-items: flex-start` |
+| `kata-items-end` | `align-items: flex-end` |
+| `kata-items-center` | `align-items: center` |
+| `kata-items-baseline` | `align-items: baseline` |
+| `kata-items-stretch` | `align-items: stretch` |
 
 ---
 
 ## Position
 
-```
-kata-static     position: static
-kata-relative   position: relative
-kata-absolute   position: absolute
-kata-fixed      position: fixed
-kata-sticky     position: sticky
-kata-inset-0    top: 0; right: 0; bottom: 0; left: 0
-kata-inset-auto top: auto; right: auto; bottom: auto; left: auto
-kata-top-{0–96}     top: n×0.25rem
-kata-right-{0–96}   right: n×0.25rem
-kata-bottom-{0–96}  bottom: n×0.25rem
-kata-left-{0–96}    left: n×0.25rem
-kata-top-auto       top: auto
-kata-right-auto     right: auto
-kata-bottom-auto    bottom: auto
-kata-left-auto      left: auto
-```
+| Class | Value |
+|---|---|
+| `kata-static` | `position: static` |
+| `kata-relative` | `position: relative` |
+| `kata-absolute` | `position: absolute` |
+| `kata-fixed` | `position: fixed` |
+| `kata-sticky` | `position: sticky` |
+| `kata-inset-0` | `top: 0; right: 0; bottom: 0; left: 0` |
+| `kata-inset-auto` | `top: auto; right: auto; bottom: auto; left: auto` |
+| `kata-top-{0–96}` | `top: n×0.25rem` |
+| `kata-right-{0–96}` | `right: n×0.25rem` |
+| `kata-bottom-{0–96}` | `bottom: n×0.25rem` |
+| `kata-left-{0–96}` | `left: n×0.25rem` |
+| `kata-top-auto` | `top: auto` |
+| `kata-right-auto` | `right: auto` |
+| `kata-bottom-auto` | `bottom: auto` |
+| `kata-left-auto` | `left: auto` |
 
 ---
 
-## Z-index
+## Z-Index
 
-```
-kata-z-{0–96}   z-index: n
-kata-z-auto     z-index: auto
-```
+| Class | Value |
+|---|---|
+| `kata-z-{0–96}` | `z-index: n` |
+| `kata-z-auto` | `z-index: auto` |
 
 ---
 
 ## Typography
 
-### Font family
+### Font Family
 
-```
-kata-font-sans      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif
-kata-font-serif     font-family: ui-serif, Georgia, Cambria, serif
-kata-font-mono      font-family: ui-monospace, Cascadia Code, Courier New, monospace
-```
+| Class | Stack |
+|---|---|
+| `kata-font-sans` | `ui-sans-serif, system-ui, -apple-system, sans-serif` |
+| `kata-font-serif` | `ui-serif, Georgia, Cambria, serif` |
+| `kata-font-mono` | `ui-monospace, Cascadia Code, Courier New, monospace` |
 
-### Font size
+### Font Size
 
 Each size also sets a default line-height.
 
-```
-kata-text-xs    0.75rem  / line-height: 1rem
-kata-text-sm    0.875rem / line-height: 1.25rem
-kata-text-base  1rem     / line-height: 1.5rem
-kata-text-lg    1.125rem / line-height: 1.75rem
-kata-text-xl    1.25rem  / line-height: 1.75rem
-kata-text-2xl   1.5rem   / line-height: 2rem
-kata-text-3xl   1.875rem / line-height: 2.25rem
-kata-text-4xl   2.25rem  / line-height: 2.5rem
-kata-text-5xl   3rem     / line-height: 1
-kata-text-6xl   3.75rem  / line-height: 1
-```
+| Class | Font Size | Line Height |
+|---|---|---|
+| `kata-text-xs` | `0.75rem` | `1rem` |
+| `kata-text-sm` | `0.875rem` | `1.25rem` |
+| `kata-text-base` | `1rem` | `1.5rem` |
+| `kata-text-lg` | `1.125rem` | `1.75rem` |
+| `kata-text-xl` | `1.25rem` | `1.75rem` |
+| `kata-text-2xl` | `1.5rem` | `2rem` |
+| `kata-text-3xl` | `1.875rem` | `2.25rem` |
+| `kata-text-4xl` | `2.25rem` | `2.5rem` |
+| `kata-text-5xl` | `3rem` | `1` |
+| `kata-text-6xl` | `3.75rem` | `1` |
 
-### Font weight
+### Font Weight
 
-```
-kata-font-thin          font-weight: 100
-kata-font-extralight    font-weight: 200
-kata-font-light         font-weight: 300
-kata-font-normal        font-weight: 400
-kata-font-medium        font-weight: 500
-kata-font-semibold      font-weight: 600
-kata-font-bold          font-weight: 700
-kata-font-extrabold     font-weight: 800
-kata-font-black         font-weight: 900
-```
+| Class | Value |
+|---|---|
+| `kata-font-thin` | `font-weight: 100` |
+| `kata-font-extralight` | `font-weight: 200` |
+| `kata-font-light` | `font-weight: 300` |
+| `kata-font-normal` | `font-weight: 400` |
+| `kata-font-medium` | `font-weight: 500` |
+| `kata-font-semibold` | `font-weight: 600` |
+| `kata-font-bold` | `font-weight: 700` |
+| `kata-font-extrabold` | `font-weight: 800` |
+| `kata-font-black` | `font-weight: 900` |
 
-### Font style
+### Font Style
 
-```
-kata-italic         font-style: italic
-kata-not-italic     font-style: normal
-```
+| Class | Value |
+|---|---|
+| `kata-italic` | `font-style: italic` |
+| `kata-not-italic` | `font-style: normal` |
 
-### Text align
+### Text Align
 
-```
-kata-text-left      text-align: left
-kata-text-center    text-align: center
-kata-text-right     text-align: right
-kata-text-justify   text-align: justify
-kata-text-start     text-align: start
-kata-text-end       text-align: end
-```
+| Class | Value |
+|---|---|
+| `kata-text-left` | `text-align: left` |
+| `kata-text-center` | `text-align: center` |
+| `kata-text-right` | `text-align: right` |
+| `kata-text-justify` | `text-align: justify` |
+| `kata-text-start` | `text-align: start` |
+| `kata-text-end` | `text-align: end` |
 
-### Line height
+### Line Height
 
-```
-kata-leading-none       line-height: 1
-kata-leading-tight      line-height: 1.25
-kata-leading-snug       line-height: 1.375
-kata-leading-normal     line-height: 1.5
-kata-leading-relaxed    line-height: 1.625
-kata-leading-loose      line-height: 2
-```
+| Class | Value |
+|---|---|
+| `kata-leading-none` | `line-height: 1` |
+| `kata-leading-tight` | `line-height: 1.25` |
+| `kata-leading-snug` | `line-height: 1.375` |
+| `kata-leading-normal` | `line-height: 1.5` |
+| `kata-leading-relaxed` | `line-height: 1.625` |
+| `kata-leading-loose` | `line-height: 2` |
 
-### Letter spacing
+### Letter Spacing
 
-```
-kata-tracking-tighter   letter-spacing: -0.05em
-kata-tracking-tight     letter-spacing: -0.025em
-kata-tracking-normal    letter-spacing: 0em
-kata-tracking-wide      letter-spacing: 0.025em
-kata-tracking-wider     letter-spacing: 0.05em
-kata-tracking-widest    letter-spacing: 0.1em
-```
+| Class | Value |
+|---|---|
+| `kata-tracking-tighter` | `letter-spacing: -0.05em` |
+| `kata-tracking-tight` | `letter-spacing: -0.025em` |
+| `kata-tracking-normal` | `letter-spacing: 0em` |
+| `kata-tracking-wide` | `letter-spacing: 0.025em` |
+| `kata-tracking-wider` | `letter-spacing: 0.05em` |
+| `kata-tracking-widest` | `letter-spacing: 0.1em` |
 
 ---
 
-## Text decoration
+## Text Decoration
 
-```
-kata-underline          text-decoration-line: underline
-kata-overline           text-decoration-line: overline
-kata-line-through       text-decoration-line: line-through
-kata-no-underline       text-decoration: none
-kata-decoration-solid   text-decoration-style: solid
-kata-decoration-dashed  text-decoration-style: dashed
-kata-decoration-dotted  text-decoration-style: dotted
-kata-decoration-double  text-decoration-style: double
-kata-decoration-wavy    text-decoration-style: wavy
-```
+| Class | Value |
+|---|---|
+| `kata-underline` | `text-decoration-line: underline` |
+| `kata-overline` | `text-decoration-line: overline` |
+| `kata-line-through` | `text-decoration-line: line-through` |
+| `kata-no-underline` | `text-decoration: none` |
+| `kata-decoration-solid` | `text-decoration-style: solid` |
+| `kata-decoration-dashed` | `text-decoration-style: dashed` |
+| `kata-decoration-dotted` | `text-decoration-style: dotted` |
+| `kata-decoration-double` | `text-decoration-style: double` |
+| `kata-decoration-wavy` | `text-decoration-style: wavy` |
 
 ---
 
@@ -374,48 +380,42 @@ kata-decoration-wavy    text-decoration-style: wavy
 Every color key works with three prefixes:
 
 ```
-kata-text-{key}     color
-kata-bg-{key}       background-color
-kata-border-{key}   border-color
+kata-text-{key}     → color
+kata-bg-{key}       → background-color
+kata-border-{key}   → border-color
 ```
 
-### Standard palette
+### Standard Palette
 
 ```
 black, white, transparent
 
-gray:    50 100 200 300 400 500 600 700 800 900
-red:     100 300 500 700 900
-orange:  100 300 500 700
-yellow:  100 300 500 700
-green:   100 300 500 700 900
-teal:    100 300 500 700
-blue:    100 300 500 700 900
-indigo:  100 300 500 700
-purple:  100 300 500 700
-pink:    100 300 500 700
-```
-
-Example:
-
-```html
-<p class="kata-text-blue-500 kata-bg-gray-100 kata-border-red-300">...</p>
+gray:   50 100 200 300 400 500 600 700 800 900
+red:    100 300 500 700 900
+orange: 100 300 500 700
+yellow: 100 300 500 700
+green:  100 300 500 700 900
+teal:   100 300 500 700
+blue:   100 300 500 700 900
+indigo: 100 300 500 700
+purple: 100 300 500 700
+pink:   100 300 500 700
 ```
 
 ---
 
-## Background helpers
+## Background Helpers
 
-```
-kata-bg-none        background: none
-kata-bg-cover       background-size: cover
-kata-bg-contain     background-size: contain
-kata-bg-center      background-position: center
-kata-bg-top         background-position: top
-kata-bg-bottom      background-position: bottom
-kata-bg-no-repeat   background-repeat: no-repeat
-kata-bg-repeat      background-repeat: repeat
-```
+| Class | Value |
+|---|---|
+| `kata-bg-none` | `background: none` |
+| `kata-bg-cover` | `background-size: cover` |
+| `kata-bg-contain` | `background-size: contain` |
+| `kata-bg-center` | `background-position: center` |
+| `kata-bg-top` | `background-position: top` |
+| `kata-bg-bottom` | `background-position: bottom` |
+| `kata-bg-no-repeat` | `background-repeat: no-repeat` |
+| `kata-bg-repeat` | `background-repeat: repeat` |
 
 ---
 
@@ -423,82 +423,78 @@ kata-bg-repeat      background-repeat: repeat
 
 ### Width
 
-```
-kata-border-0   border-width: 0
-kata-border     border-width: 1px
-kata-border-2   border-width: 2px
-kata-border-4   border-width: 4px
-kata-border-8   border-width: 8px
-kata-border-t   border-top-width: 1px
-kata-border-r   border-right-width: 1px
-kata-border-b   border-bottom-width: 1px
-kata-border-l   border-left-width: 1px
-```
+| Class | Value |
+|---|---|
+| `kata-border-0` | `border-width: 0` |
+| `kata-border` | `border-width: 1px` |
+| `kata-border-2` | `border-width: 2px` |
+| `kata-border-4` | `border-width: 4px` |
+| `kata-border-8` | `border-width: 8px` |
+| `kata-border-t` | `border-top-width: 1px` |
+| `kata-border-r` | `border-right-width: 1px` |
+| `kata-border-b` | `border-bottom-width: 1px` |
+| `kata-border-l` | `border-left-width: 1px` |
 
 ### Style
 
-```
-kata-border-solid   border-style: solid
-kata-border-dashed  border-style: dashed
-kata-border-dotted  border-style: dotted
-kata-border-double  border-style: double
-kata-border-none    border-style: none
-```
+| Class | Value |
+|---|---|
+| `kata-border-solid` | `border-style: solid` |
+| `kata-border-dashed` | `border-style: dashed` |
+| `kata-border-dotted` | `border-style: dotted` |
+| `kata-border-double` | `border-style: double` |
+| `kata-border-none` | `border-style: none` |
 
 ### Radius
 
-```
-kata-rounded-none   border-radius: 0
-kata-rounded-sm     border-radius: 0.125rem
-kata-rounded        border-radius: 0.25rem
-kata-rounded-md     border-radius: 0.375rem
-kata-rounded-lg     border-radius: 0.5rem
-kata-rounded-xl     border-radius: 0.75rem
-kata-rounded-2xl    border-radius: 1rem
-kata-rounded-3xl    border-radius: 1.5rem
-kata-rounded-full   border-radius: 9999px
-kata-rounded-{n}    border-radius: n×0.25rem
-```
+| Class | Value |
+|---|---|
+| `kata-rounded-none` | `border-radius: 0` |
+| `kata-rounded-sm` | `border-radius: 0.125rem` |
+| `kata-rounded` | `border-radius: 0.25rem` |
+| `kata-rounded-md` | `border-radius: 0.375rem` |
+| `kata-rounded-lg` | `border-radius: 0.5rem` |
+| `kata-rounded-xl` | `border-radius: 0.75rem` |
+| `kata-rounded-2xl` | `border-radius: 1rem` |
+| `kata-rounded-3xl` | `border-radius: 1.5rem` |
+| `kata-rounded-full` | `border-radius: 9999px` |
+| `kata-rounded-{n}` | `border-radius: n×0.25rem` |
 
 ---
 
 ## Cursor
 
-```
-kata-cursor-auto        cursor: auto
-kata-cursor-default     cursor: default
-kata-cursor-pointer     cursor: pointer
-kata-cursor-wait        cursor: wait
-kata-cursor-text        cursor: text
-kata-cursor-move        cursor: move
-kata-cursor-not-allowed cursor: not-allowed
-kata-cursor-grab        cursor: grab
-```
+| Class | Value |
+|---|---|
+| `kata-cursor-auto` | `cursor: auto` |
+| `kata-cursor-default` | `cursor: default` |
+| `kata-cursor-pointer` | `cursor: pointer` |
+| `kata-cursor-wait` | `cursor: wait` |
+| `kata-cursor-text` | `cursor: text` |
+| `kata-cursor-move` | `cursor: move` |
+| `kata-cursor-not-allowed` | `cursor: not-allowed` |
+| `kata-cursor-grab` | `cursor: grab` |
 
 ---
 
 ## Visibility
 
-```
-kata-visible    visibility: visible
-kata-invisible  visibility: hidden
-```
+| Class | Value |
+|---|---|
+| `kata-visible` | `visibility: visible` |
+| `kata-invisible` | `visibility: hidden` |
 
 ---
 
-## Chai color scheme (ChaiCode Exclusive)
+## Chai Color Scheme
 
-Colors named after real chai and tea varieties. Built for the ChaiCode cohort.
-
-All chai colors follow the same three-prefix pattern:
+Colors named after real chai and tea varieties. Built for the ChaiCode cohort. All chai colors follow the same three-prefix pattern:
 
 ```
 kata-bg-kata-chai-masala
 kata-text-kata-chai-earl-grey
 kata-border-kata-chai-matcha
 ```
-
-### The Flavours of Tea 
 
 | Key | Hex | Tea |
 |---|---|---|
@@ -558,19 +554,22 @@ kata-border-kata-chai-matcha
 
 ---
 
-## Project structure
+## Project Structure
 
 ```
 kata-css/
-├── src/
-│   ├── classMap.js     class → CSS string definitions
-│   └── index.js        engine + DOMContentLoaded listener
 ├── dist/
-│   ├── kata.js         UMD build (CDN)
-│   └── kata.min.js     minified UMD build
+│   ├── kata.js           UMD build (CDN)
+│   └── kata.min.js       minified UMD build
+├── docs/
+│   ├── docs.html         documentation page
+│   └── index.html        landing page
+├── src/
+│   ├── classMap.js       class: CSS string definitions
+│   └── index.js          engine + DOMContentLoaded listener
 ├── .gitignore
 ├── package.json
-└── package-lock.json
+├── package-lock.json
 └── README.md
 ```
 
@@ -578,4 +577,4 @@ kata-css/
 
 ## License
 
-MIT. Built for the [ChaiCode](https://chaicode.com) cohort.
+MIT. Built for [ChaiCode](https://chaicode.com).

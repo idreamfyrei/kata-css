@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KataCSS Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:    #f3ead6;
+  --bg2:   #ece3ca;
+  --bg3:   #e4dbbf;
+  --ink:   #10100e;
+  --ink2:  #2a2a26;
+  --ink3:  #6b6b5e;
+  --ink4:  #9a9a88;
+  --red:   #d94f3d;
+  --olive: #8c8435;
+  --border:  1px solid #10100e;
+  --border-l:1px solid rgba(16,16,14,0.15);
+  --fh: 'Satoshi', 'Helvetica Neue', sans-serif;
+  --fm: 'IBM Plex Mono', monospace;
+  --fb: 'Satoshi', 'Helvetica Neue', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--fb);
+  line-height:1.5;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── LAYOUT ── */
+.layout-grid{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  min-height:100vh;
+  border-left:var(--border);
+  border-right:var(--border);
+  max-width:1440px;
+  margin:0 auto;
+}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  border-right:var(--border);
+  display:flex;
+  flex-direction:column;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+.sidebar::-webkit-scrollbar{display:none;}
+
+.sidebar-header{
+  padding:1.75rem 2rem 1.5rem;
+  border-bottom:var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+}
+.logo{
+  font-family:var(--fh);
+  font-size:2.75rem;
+  font-weight:900;
+  letter-spacing:-0.07em;
+  line-height:0.85;
+  color:var(--ink);
+  text-decoration:none;
+}
+.logo span{color:var(--red);}
+.version{
+  font-family:var(--fm);
+  font-size:0.62rem;
+  color:var(--ink3);
+  letter-spacing:0.06em;
+  margin-bottom:2px;
+}
+
+/* nav groups */
+.nav-section{border-bottom:var(--border);}
+.nav-section-title{
+  font-family:var(--fm);
+  font-size:0.62rem;
+  text-transform:uppercase;
+  font-weight:500;
+  letter-spacing:0.12em;
+  padding:1.1rem 2rem 0.4rem;
+  color:var(--ink3);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.draft-tag{
+  font-size:0.55rem;
+  color:var(--olive);
+  letter-spacing:0.08em;
+}
+.nav-list{list-style:none;}
+.nav-item{border-top:var(--border-l);}
+.nav-item:first-child{border-top:none;}
+
+.nav-link{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0.8rem 2rem;
+  color:var(--ink);
+  text-decoration:none;
+  font-size:0.875rem;
+  font-weight:400;
+  cursor:pointer;
+  transition:background 0.12s,color 0.12s;
+  position:relative;
+}
+.nav-link:hover{background:var(--ink);color:var(--bg);}
+.nav-link .arrow{font-size:9px;opacity:0;transition:opacity 0.12s;}
+.nav-link:hover .arrow{opacity:1;}
+
+/* red dot active */
+.nav-link.active{
+  background:var(--red);
+  color:var(--bg);
+  font-weight:500;
+}
+.nav-link.active .arrow{opacity:1;}
+
+/* olive square draft */
+.nav-link.draft-link{color:var(--olive);}
+.nav-link.draft-link.active{background:var(--olive);color:var(--bg);}
+
+/* ── MAIN ── */
+.main-content{display:flex;flex-direction:column;min-width:0;overflow:hidden;}
+
+.top-bar{
+  height:56px;
+  border-bottom:var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 2.5rem;
+  position:sticky;
+  top:0;
+  background:var(--bg);
+  z-index:10;
+}
+.breadcrumb{
+  font-family:var(--fm);
+  font-size:0.65rem;
+  color:var(--ink3);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.bc-sep{color:var(--ink4);}
+#bc-page{color:var(--ink2);}
+.top-right{display:flex;align-items:center;gap:1.75rem;}
+.top-link{
+  font-family:var(--fm);
+  font-size:0.65rem;
+  color:var(--ink3);
+  text-decoration:none;
+  letter-spacing:0.04em;
+  transition:color 0.12s;
+}
+.top-link:hover{color:var(--red);}
+
+.content-scroll{flex:1;overflow-y:auto;}
+
+/* ── DOC SECTIONS ── */
+.doc-section{
+  padding:3.5rem 4rem 4rem;
+  border-bottom:var(--border);
+}
+
+.page-title{
+  font-family:var(--fh);
+  font-size:clamp(2.5rem,4vw,4rem);
+  font-weight:900;
+  letter-spacing:-0.04em;
+  line-height:1;
+  margin-bottom:1.25rem;
+  color:var(--ink);
+}
+.page-desc{
+  font-size:1.05rem;
+  font-weight:400;
+  max-width:55ch;
+  line-height:1.55;
+  color:var(--ink2);
+  margin-bottom:2.5rem;
+}
+
+/* meta grid */
+.meta-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:var(--border);
+  border-bottom:var(--border);
+  margin-bottom:2.5rem;
+}
+.meta-cell{
+  padding:0.8rem 1rem;
+  border-right:var(--border);
+}
+.meta-cell:first-child{padding-left:0;}
+.meta-cell:last-child{border-right:none;}
+.meta-key{font-family:var(--fm);font-size:0.65rem;color:var(--ink3);margin-bottom:3px;}
+.meta-val{font-family:var(--fm);font-size:0.72rem;font-weight:500;color:var(--ink);}
+
+/* section headings */
+.doc-section h2{
+  font-family:var(--fh);
+  font-size:1.75rem;
+  font-weight:700;
+  letter-spacing:-0.02em;
+  margin:2.5rem 0 1rem;
+  padding-bottom:0.65rem;
+  border-bottom:var(--border);
+  line-height:1.1;
+  color:var(--ink);
+}
+.doc-section h3{
+  font-family:var(--fh);
+  font-size:1rem;
+  font-weight:700;
+  letter-spacing:-0.01em;
+  margin:1.75rem 0 0.65rem;
+}
+.doc-section p{
+  font-size:0.95rem;
+  line-height:1.7;
+  color:var(--ink2);
+  max-width:64ch;
+  margin-bottom:1rem;
+}
+.page-desc{ max-width:55ch; }
+.utility-table,.code-block,.cdn-strip,.install-row,.playground,.color-grid,.meta-grid,.callout,.chai-wrap{ max-width:860px; }
+p code,li code{
+  font-family:var(--fm);
+  font-size:0.85em;
+  background:var(--bg3);
+  padding:0.1em 0.35em;
+  border:var(--border-l);
+  color:var(--red);
+}
+
+/* editorial divider — outline text like reference images */
+.ed-div{
+  font-family:var(--fh);
+  font-size:clamp(3.5rem,9vw,7rem);
+  font-weight:900;
+  letter-spacing:-0.04em;
+  line-height:0.9;
+  color:transparent;
+  -webkit-text-stroke:1.5px var(--ink);
+  text-stroke:1.5px var(--ink);
+  margin:2rem 0;
+  text-transform:uppercase;
+  user-select:none;
+}
+
+/* code block */
+.code-block{background:var(--ink);overflow:hidden;margin:1.25rem 0;}
+.cb-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0.55rem 1rem;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  background:var(--ink2);
+}
+.cb-dots{display:flex;gap:5px;}
+.cb-dot{width:9px;height:9px;border-radius:50%;}
+.cb-dot:nth-child(1){background:#FF5F57;}
+.cb-dot:nth-child(2){background:#FEBC2E;}
+.cb-dot:nth-child(3){background:#28C840;}
+.cb-lang{font-family:var(--fm);font-size:0.6rem;color:rgba(243,234,214,0.3);letter-spacing:0.1em;text-transform:uppercase;margin-left:6px;}
+.cb-copy{background:none;border:1px solid rgba(255,255,255,0.12);color:rgba(243,234,214,0.35);font-family:var(--fm);font-size:0.6rem;padding:2px 8px;cursor:pointer;transition:all 0.12s;letter-spacing:0.06em;}
+.cb-copy:hover{color:var(--bg);border-color:rgba(255,255,255,0.4);}
+pre{padding:1.5rem;font-family:var(--fm);font-size:0.78rem;line-height:1.8;color:rgba(243,234,214,0.7);overflow-x:auto;}
+.t-k{color:#d4a96a;}.t-s{color:#8db87a;}.t-c{color:rgba(243,234,214,0.25);}.t-p{color:#c4785a;}.t-n{color:#7aacb8;}
+
+/* callout */
+.callout{border-left:3px solid var(--red);background:var(--bg2);padding:0.8rem 1rem;margin:1rem 0;font-family:var(--fm);font-size:0.72rem;color:var(--ink2);line-height:1.6;}
+.callout strong{color:var(--red);}
+.callout.olive{border-left-color:var(--olive);}
+.callout.olive strong{color:var(--olive);}
+
+/* tables */
+.utility-table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:0.82rem;}
+.utility-table th{text-align:left;padding:0.6rem 0;border-bottom:var(--border);font-family:var(--fm);font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:500;color:var(--ink3);}
+.utility-table td{padding:0.6rem 0;border-bottom:var(--border-l);vertical-align:top;}
+.utility-table tr:last-child td{border-bottom:none;}
+.utility-table tr:hover td{background:var(--bg2);}
+.u-cls{font-family:var(--fm);font-size:0.75rem;color:var(--red);font-weight:500;}
+.u-css{font-family:var(--fm);font-size:0.75rem;color:var(--ink3);}
+.u-eg{font-family:var(--fm);font-size:0.7rem;color:var(--ink4);}
+
+/* install cards */
+.install-row{display:grid;grid-template-columns:repeat(3,1fr);border:var(--border);margin:1.25rem 0;}
+.ic{padding:1.5rem;border-right:var(--border);transition:background 0.12s;}
+.ic:last-child{border-right:none;}
+.ic:hover{background:var(--bg2);}
+.ic-n{font-family:var(--fh);font-size:2rem;font-weight:900;color:rgba(16,16,14,0.06);letter-spacing:-0.05em;line-height:1;margin-bottom:0.75rem;}
+.ic-t{font-family:var(--fh);font-size:0.8rem;font-weight:700;color:var(--ink);margin-bottom:0.3rem;letter-spacing:-0.02em;}
+.ic-d{font-size:0.78rem;color:var(--ink3);line-height:1.5;}
+
+/* cdn strip */
+.cdn-strip{display:flex;align-items:center;border:var(--border);margin:1rem 0;overflow:hidden;}
+.cdn-p{font-family:var(--fm);font-size:0.75rem;color:var(--red);background:var(--ink);padding:0 1rem;align-self:stretch;display:flex;align-items:center;border-right:var(--border);user-select:none;}
+.cdn-c{font-family:var(--fm);font-size:0.72rem;color:var(--ink2);padding:0.75rem 1rem;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:var(--bg2);}
+.cdn-btn{background:var(--ink);border:none;color:var(--bg);font-family:var(--fm);font-size:0.62rem;font-weight:500;padding:0 1.2rem;align-self:stretch;cursor:pointer;transition:background 0.12s;letter-spacing:0.08em;white-space:nowrap;border-left:var(--border);}
+.cdn-btn:hover{background:var(--red);}
+.cdn-btn.done{background:#22a55e;}
+
+/* color cards — dark style like reference image 4 */
+.color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:1rem 0;}
+.color-card{
+  cursor:pointer;
+  border-radius:12px;
+  overflow:hidden;
+  background:#1a1a18;
+  transition:transform 0.15s,box-shadow 0.15s;
+  box-shadow:0 2px 8px rgba(0,0,0,0.12);
+}
+.color-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.2);}
+.cc-sw{height:80px;display:flex;align-items:flex-end;padding:10px 14px;border-radius:8px 8px 0 0;}
+.cc-key{font-family:var(--fm);font-size:11px;font-weight:500;opacity:0.88;line-height:1;letter-spacing:0.02em;}
+.cc-info{padding:12px 14px 14px;background:#1a1a18;}
+.cc-name{font-family:var(--fh);font-size:13px;font-weight:500;color:#f0ede4;margin-bottom:2px;}
+.cc-hex{font-family:var(--fm);font-size:11px;color:#7a7a6a;}
+.cc-origin{font-size:11px;color:#5a5a4e;margin-top:3px;line-height:1.4;}
+
+/* palette group */
+.pg-group{margin-bottom:1.75rem;}
+.pg-lbl{font-family:var(--fm);font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink4);margin-bottom:0.5rem;display:block;padding-bottom:0.4rem;border-bottom:var(--border-l);}
+
+/* chai section */
+.chai-wrap{border:1px solid rgba(217,79,61,0.3);margin-bottom:2rem;overflow:hidden;}
+.chai-hdr{background:var(--ink);padding:1.5rem 2rem;position:relative;overflow:hidden;}
+.chai-hdr::before{content:'☕';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:4rem;opacity:0.06;}
+.chai-tag{display:inline-flex;align-items:center;gap:4px;font-family:var(--fm);font-size:0.6rem;color:rgba(217,79,61,0.75);background:rgba(217,79,61,0.1);border:1px solid rgba(217,79,61,0.22);padding:2px 10px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.75rem;}
+.chai-tag::before{content:'◆';font-size:5px;}
+.chai-hdr h3{font-family:var(--fh);font-size:1.3rem;font-weight:900;color:var(--bg);letter-spacing:-0.04em;margin-bottom:0.4rem;}
+.chai-hdr h3 span{color:rgba(217,79,61,0.8);}
+.chai-hdr p{font-size:0.8rem;color:rgba(243,234,214,0.4);margin:0;max-width:none;}
+.chai-hdr p a{color:rgba(217,79,61,0.7);text-decoration:none;}
+.chai-body{padding:1.5rem 2rem;}
+.chai-note{font-family:var(--fm);font-size:0.68rem;color:var(--ink2);background:var(--bg2);border-left:3px solid var(--red);padding:0.65rem 1rem;margin-bottom:1.25rem;line-height:1.6;}
+.chai-note strong{color:var(--red);}
+
+/* playground */
+.playground{border:var(--border);margin:1.25rem 0;overflow:hidden;}
+.pg-bar{display:flex;align-items:center;justify-content:space-between;padding:0.55rem 1rem;background:var(--bg2);border-bottom:var(--border);}
+.pg-title{font-family:var(--fm);font-size:0.62rem;color:var(--ink3);letter-spacing:0.08em;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+.pg-title::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--red);}
+.pg-run{background:var(--ink);border:none;color:var(--bg);font-family:var(--fm);font-size:0.62rem;font-weight:500;padding:5px 14px;cursor:pointer;transition:background 0.12s;letter-spacing:0.06em;}
+.pg-run:hover{background:var(--red);}
+.pg-panes{display:grid;grid-template-columns:1fr 1fr;}
+.pane-lbl{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink4);padding:5px 12px;border-bottom:var(--border);background:var(--bg2);}
+#pg-input{width:100%;height:180px;border:none;border-right:var(--border);background:var(--ink2);color:#8db87a;font-family:var(--fm);font-size:0.75rem;line-height:1.75;padding:1rem;resize:none;outline:none;}
+#pg-preview{height:180px;overflow:auto;padding:1rem;background:var(--bg);font-family:var(--fb);}
+
+/* toast */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(40px);background:var(--ink);color:var(--bg);font-family:var(--fm);font-size:0.72rem;padding:8px 18px;z-index:9999;transition:all 0.18s;pointer-events:none;opacity:0;}
+#toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+@media(max-width:900px){
+  .layout-grid{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .doc-section{padding:2rem 1.25rem 3rem;}
+  .meta-grid{grid-template-columns:1fr 1fr;}
+  .install-row{grid-template-columns:1fr;}
+  .pg-panes{grid-template-columns:1fr;}
+  #pg-input{border-right:none;border-bottom:var(--border);}
+
+  /* top bar mobile — single row, no wrap */
+  .top-bar{
+    padding:0 1.25rem;
+    height:48px;
+    flex-wrap:nowrap;
+    overflow:hidden;
+  }
+  /* hide the group label, only show current page */
+  #bc-group { display:none; }
+  .bc-sep   { display:none; }
+  .breadcrumb{
+    font-size:0.6rem;
+    letter-spacing:0.06em;
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .top-right{ gap:1rem; }
+  /* hide GitHub and npm on very small screens, keep Home */
+  .top-link.hide-mobile{ display:none; }
+}
+
+@media(max-width:480px){
+  .top-bar{ padding:0 1rem; }
+}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<div class="layout-grid">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <a href="index.html" class="logo">k<span>.</span></a>
+    <span class="version">v1.0.0</span>
+  </div>
+
+  <nav style="flex:1;overflow-y:auto;scrollbar-width:none;">
+
+    <div class="nav-section">
+      <div class="nav-section-title">Getting Started</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a class="nav-link active" data-target="sec-installation" data-group="GETTING STARTED" data-page="INSTALLATION" onclick="navTo(this)">Installation <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-usage" data-group="GETTING STARTED" data-page="USAGE" onclick="navTo(this)">Usage <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-howit" data-group="GETTING STARTED" data-page="HOW IT WORKS" onclick="navTo(this)">How it works <span class="arrow">↘</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">Reference</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a class="nav-link" data-target="sec-spacing" data-group="REFERENCE" data-page="SPACING" onclick="navTo(this)">Spacing <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-layout" data-group="REFERENCE" data-page="LAYOUT" onclick="navTo(this)">Layout &amp; Display <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-flexbox" data-group="REFERENCE" data-page="FLEXBOX" onclick="navTo(this)">Flexbox <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-position" data-group="REFERENCE" data-page="POSITION" onclick="navTo(this)">Position &amp; Z-index <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-sizing" data-group="REFERENCE" data-page="SIZING" onclick="navTo(this)">Width &amp; Height <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-typography" data-group="REFERENCE" data-page="TYPOGRAPHY" onclick="navTo(this)">Typography <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-decoration" data-group="REFERENCE" data-page="TEXT DECORATION" onclick="navTo(this)">Text Decoration <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-borders" data-group="REFERENCE" data-page="BORDERS" onclick="navTo(this)">Borders <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-colors" data-group="REFERENCE" data-page="COLORS" onclick="navTo(this)">Colors <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link" data-target="sec-misc" data-group="REFERENCE" data-page="MISC" onclick="navTo(this)">Cursor &amp; Visibility <span class="arrow">↘</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">ChaiCode <span class="draft-tag">EXCLUSIVE</span></div>
+      <ul class="nav-list">
+        <li class="nav-item"><a class="nav-link" data-target="sec-chaicode" data-group="CHAICODE" data-page="CHAI THEMING" onclick="navTo(this)">Chai Theming <span class="arrow">↘</span></a></li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">Tools</div>
+      <ul class="nav-list">
+        <li class="nav-item"><a class="nav-link" data-target="sec-playground" data-group="TOOLS" data-page="PLAYGROUND" onclick="navTo(this)">Playground <span class="arrow">↘</span></a></li>
+        <li class="nav-item"><a class="nav-link draft-link" data-target="sec-intellisense" data-group="TOOLS" data-page="INTELLISENSE" onclick="navTo(this)">IntelliSense <span class="arrow">↘</span></a></li>
+      </ul>
+    </div>
+
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<main class="main-content">
+
+  <div class="top-bar">
+    <div class="breadcrumb">
+      <span id="bc-group">GETTING STARTED</span>
+      <span class="bc-sep">/</span>
+      <span id="bc-page">INSTALLATION</span>
+    </div>
+    <div class="top-right">
+      <a href="index.html" class="top-link">← Home</a>
+      <a href="https://github.com/YOUR_USERNAME/kata-css" target="_blank" class="top-link hide-mobile">GitHub ↗</a>
+      <a href="https://npmjs.com/package/kata-css" target="_blank" class="top-link hide-mobile">npm ↗</a>
+    </div>
+  </div>
+
+  <div class="content-scroll" id="content-scroll">
+
+  <!-- INSTALLATION -->
+  <section class="doc-section" id="sec-installation" data-group="GETTING STARTED" data-page="INSTALLATION">
+    <h1 class="page-title">Installation</h1>
+    <p class="page-desc">Two ways to add KataCSS to your project. One script tag or one import.</p>
+    <div class="meta-grid">
+      <div class="meta-cell"><div class="meta-key">Category</div><div class="meta-val">Getting Started</div></div>
+      <div class="meta-cell"><div class="meta-key">Difficulty</div><div class="meta-val">Beginner</div></div>
+      <div class="meta-cell"><div class="meta-key">Time</div><div class="meta-val">2 min</div></div>
+      <div class="meta-cell"><div class="meta-key">Author</div><div class="meta-val">Kata Team</div></div>
+    </div>
+    <h2>CDN</h2>
+    <p>Drop this in your <code>&lt;head&gt;</code>. That's the entire setup.</p>
+    <div class="cdn-strip">
+      <span class="cdn-p">$</span>
+      <span class="cdn-c" id="cdn-code">&lt;script src="https://cdn.jsdelivr.net/npm/kata-css/dist/kata.js"&gt;&lt;/script&gt;</span>
+      <button class="cdn-btn" onclick="copyCdn(this)">COPY</button>
+    </div>
+    <h2>npm</h2>
+    <div class="install-row">
+      <div class="ic"><div class="ic-n">01</div><div class="ic-t">Install</div><div class="ic-d">Add the package to your project.</div></div>
+      <div class="ic"><div class="ic-n">02</div><div class="ic-t">Import</div><div class="ic-d">One import in your JS entry file.</div></div>
+      <div class="ic"><div class="ic-n">03</div><div class="ic-t">Done</div><div class="ic-d">Styles apply automatically on DOMContentLoaded.</div></div>
+    </div>
+    <div class="code-block">
+      <div class="cb-bar"><div class="cb-dots"><div class="cb-dot"></div><div class="cb-dot"></div><div class="cb-dot"></div></div><span class="cb-lang">bash</span><button class="cb-copy" onclick="copyCode(this)">copy</button></div>
+      <pre>npm install kata-css</pre>
+    </div>
+    <div class="code-block">
+      <div class="cb-bar"><div class="cb-dots"><div class="cb-dot"></div><div class="cb-dot"></div><div class="cb-dot"></div></div><span class="cb-lang">js</span><button class="cb-copy" onclick="copyCode(this)">copy</button></div>
+      <pre><span class="t-k">import</span> <span class="t-s">"kata-css"</span>;  <span class="t-c">// self-executes on DOMContentLoaded</span></pre>
+    </div>
+  </section>
+
+  <!-- USAGE -->
+  <section class="doc-section" id="sec-usage" data-group="GETTING STARTED" data-page="USAGE">
+    <h1 class="page-title">Usage</h1>
+    <p class="page-desc">Write <code>kata-*</code> classes on any element. They become inline styles on load.</p>
+    <div class="code-block">
+      <div class="cb-bar"><div class="cb-dots"><div class="cb-dot"></div><div class="cb-dot"></div><div class="cb-dot"></div></div><span class="cb-lang">html</span><button class="cb-copy" onclick="copyCode(this)">copy</button></div>
+      <pre><span class="t-p">&lt;h1</span> <span class="t-n">class</span>=<span class="t-s">"kata-text-3xl kata-font-bold kata-text-blue-500"</span><span class="t-p">&gt;</span>
+  Hello, KataCSS
+<span class="t-p">&lt;/h1&gt;</span>
+
+<span class="t-p">&lt;div</span> <span class="t-n">class</span>=<span class="t-s">"kata-flex kata-gap-4 kata-p-6 kata-bg-kata-chai-matcha kata-rounded-lg"</span><span class="t-p">&gt;</span>
+  <span class="t-p">&lt;p</span> <span class="t-n">class</span>=<span class="t-s">"kata-text-white kata-font-medium"</span><span class="t-p">&gt;</span>Works on load<span class="t-p">&lt;/p&gt;</span>
+<span class="t-p">&lt;/div&gt;</span></pre>
+    </div>
+    <div class="callout"><strong>Unknown classes</strong> log a warning in the console: <code style="background:transparent;border:none;font-size:0.85em;color:inherit">[kata-css] Unknown class: "kata-xyz"</code></div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="doc-section" id="sec-howit" data-group="GETTING STARTED" data-page="HOW IT WORKS">
+    <h1 class="page-title">How it works</h1>
+    <p class="page-desc">KataCSS is a runtime engine. No compiler, no build step, no CSSOM manipulation.</p>
+    <div class="ed-div">Runtime</div>
+    <h2>Execution flow</h2>
+    <p>KataCSS listens for <code>DOMContentLoaded</code>. Once the DOM is ready, it scans every element with a class attribute, finds anything starting with <code>kata-</code>, looks it up in a flat key-value map, writes the CSS as an inline <code>style</code> attribute, and removes the original class. Nothing left behind.</p>
+    <div class="code-block">
+      <div class="cb-bar"><div class="cb-dots"><div class="cb-dot"></div><div class="cb-dot"></div><div class="cb-dot"></div></div><span class="cb-lang">flow</span></div>
+      <pre>Browser parses HTML
+  → script registers DOMContentLoaded listener
+  → DOM finishes loading
+  → KataCSS scans all [class] elements
+  → finds kata-* classes → looks up classMap
+  → writes inline style attribute
+  → removes kata-* class from classList</pre>
+    </div>
+    <h2>Extending</h2>
+    <div class="code-block">
+      <div class="cb-bar"><div class="cb-dots"><div class="cb-dot"></div><div class="cb-dot"></div><div class="cb-dot"></div></div><span class="cb-lang">js — classMap.js</span><button class="cb-copy" onclick="copyCode(this)">copy</button></div>
+      <pre><span class="t-c">// src/classMap.js — add any key you want</span>
+classMap[<span class="t-s">"kata-bg-brand"</span>]   = <span class="t-s">"background-color: #FF6B35;"</span>;
+classMap[<span class="t-s">"kata-text-brand"</span>] = <span class="t-s">"color: #FF6B35;"</span>;
+
+<span class="t-c">// rebuild</span>
+npm run build</pre>
+    </div>
+  </section>
+
+  <!-- SPACING -->
+  <section class="doc-section" id="sec-spacing" data-group="REFERENCE" data-page="SPACING">
+    <h1 class="page-title">Spacing</h1>
+    <p class="page-desc">All spacing utilities use <code>i × 0.25rem</code>. Scale runs 0–96.</p>
+    <div class="meta-grid">
+      <div class="meta-cell"><div class="meta-key">Formula</div><div class="meta-val">i × 0.25rem</div></div>
+      <div class="meta-cell"><div class="meta-key">Scale</div><div class="meta-val">0 – 96</div></div>
+      <div class="meta-cell"><div class="meta-key">kata-p-4</div><div class="meta-val">= 1rem / 16px</div></div>
+      <div class="meta-cell"><div class="meta-key">kata-p-8</div><div class="meta-val">= 2rem / 32px</div></div>
+    </div>
+    <div class="ed-div">Scale</div>
+    <h2>Padding</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th style="width:38%">CSS</th><th>Example</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-p-{n}</td><td class="u-css">padding: n×0.25rem</td><td class="u-eg">kata-p-4 → 1rem</td></tr>
+      <tr><td class="u-cls">kata-px-{n}</td><td class="u-css">padding-left + right</td><td class="u-eg">kata-px-6 → 1.5rem</td></tr>
+      <tr><td class="u-cls">kata-py-{n}</td><td class="u-css">padding-top + bottom</td><td class="u-eg">kata-py-2 → 0.5rem</td></tr>
+      <tr><td class="u-cls">kata-pt/pb/pl/pr-{n}</td><td class="u-css">individual sides</td><td class="u-eg">kata-pt-3 → 0.75rem</td></tr>
+    </tbody></table>
+    <h2>Margin</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-m-{n}</td><td class="u-css">margin: n×0.25rem</td></tr>
+      <tr><td class="u-cls">kata-mx-{n} / kata-mx-auto</td><td class="u-css">margin-left + right</td></tr>
+      <tr><td class="u-cls">kata-my-{n}</td><td class="u-css">margin-top + bottom</td></tr>
+      <tr><td class="u-cls">kata-mt/mb/ml/mr-{n}</td><td class="u-css">individual sides</td></tr>
+      <tr><td class="u-cls">kata-m-auto</td><td class="u-css">margin: auto</td></tr>
+    </tbody></table>
+    <h2>Gap</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-gap-{n}</td><td class="u-css">gap: n×0.25rem</td></tr>
+      <tr><td class="u-cls">kata-gap-x-{n}</td><td class="u-css">column-gap: n×0.25rem</td></tr>
+      <tr><td class="u-cls">kata-gap-y-{n}</td><td class="u-css">row-gap: n×0.25rem</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- LAYOUT -->
+  <section class="doc-section" id="sec-layout" data-group="REFERENCE" data-page="LAYOUT">
+    <h1 class="page-title">Layout &amp; Display</h1>
+    <p class="page-desc">Display, box-sizing, and overflow utilities.</p>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-block</td><td class="u-css">display: block</td></tr>
+      <tr><td class="u-cls">kata-inline / kata-inline-block</td><td class="u-css">display: inline / inline-block</td></tr>
+      <tr><td class="u-cls">kata-flex / kata-inline-flex</td><td class="u-css">display: flex / inline-flex</td></tr>
+      <tr><td class="u-cls">kata-grid / kata-inline-grid</td><td class="u-css">display: grid / inline-grid</td></tr>
+      <tr><td class="u-cls">kata-hidden</td><td class="u-css">display: none</td></tr>
+      <tr><td class="u-cls">kata-contents</td><td class="u-css">display: contents</td></tr>
+      <tr><td class="u-cls">kata-box-border / kata-box-content</td><td class="u-css">box-sizing</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- FLEXBOX -->
+  <section class="doc-section" id="sec-flexbox" data-group="REFERENCE" data-page="FLEXBOX">
+    <h1 class="page-title">Flexbox</h1>
+    <p class="page-desc">Direction, wrapping, justification, and alignment.</p>
+    <h2>Direction &amp; wrap</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-flex-row / col</td><td class="u-css">flex-direction: row / column</td></tr>
+      <tr><td class="u-cls">kata-flex-row-reverse / col-reverse</td><td class="u-css">flex-direction reversed</td></tr>
+      <tr><td class="u-cls">kata-flex-wrap / nowrap / wrap-reverse</td><td class="u-css">flex-wrap</td></tr>
+    </tbody></table>
+    <h2>Justify &amp; align</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-justify-start / center / end</td><td class="u-css">justify-content</td></tr>
+      <tr><td class="u-cls">kata-justify-between / around / evenly</td><td class="u-css">justify-content</td></tr>
+      <tr><td class="u-cls">kata-items-start / center / end</td><td class="u-css">align-items</td></tr>
+      <tr><td class="u-cls">kata-items-baseline / stretch</td><td class="u-css">align-items</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- POSITION -->
+  <section class="doc-section" id="sec-position" data-group="REFERENCE" data-page="POSITION">
+    <h1 class="page-title">Position &amp; Z-index</h1>
+    <p class="page-desc">Position type, inset values (0–96 scale), and z-index (0–96).</p>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-static / relative / absolute / fixed / sticky</td><td class="u-css">position</td></tr>
+      <tr><td class="u-cls">kata-inset-0 / kata-inset-auto</td><td class="u-css">top/right/bottom/left: 0 / auto</td></tr>
+      <tr><td class="u-cls">kata-top/right/bottom/left-{0–96}</td><td class="u-css">inset side: n×0.25rem</td></tr>
+      <tr><td class="u-cls">kata-top/right/bottom/left-auto</td><td class="u-css">inset side: auto</td></tr>
+      <tr><td class="u-cls">kata-z-{0–96}</td><td class="u-css">z-index: n</td></tr>
+      <tr><td class="u-cls">kata-z-auto</td><td class="u-css">z-index: auto</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- SIZING -->
+  <section class="doc-section" id="sec-sizing" data-group="REFERENCE" data-page="SIZING">
+    <h1 class="page-title">Width &amp; Height</h1>
+    <p class="page-desc">Numeric scale 0–96 (×0.25rem) plus named values.</p>
+    <h2>Width</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-w-{0–96}</td><td class="u-css">width: n×0.25rem</td></tr>
+      <tr><td class="u-cls">kata-w-auto / full / half / screen</td><td class="u-css">auto / 100% / 50% / 100vw</td></tr>
+      <tr><td class="u-cls">kata-w-min / max / fit</td><td class="u-css">min/max/fit-content</td></tr>
+    </tbody></table>
+    <h2>Height</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-h-{0–96}</td><td class="u-css">height: n×0.25rem</td></tr>
+      <tr><td class="u-cls">kata-h-auto / full / half / screen</td><td class="u-css">auto / 100% / 50% / 100vh</td></tr>
+      <tr><td class="u-cls">kata-h-min / max / fit</td><td class="u-css">min/max/fit-content</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- TYPOGRAPHY -->
+  <section class="doc-section" id="sec-typography" data-group="REFERENCE" data-page="TYPOGRAPHY">
+    <h1 class="page-title">Typography</h1>
+    <p class="page-desc">Font family, size (with line-height), weight, style, alignment, leading, and tracking.</p>
+    <div class="ed-div">Type</div>
+    <h2>Font family</h2>
+    <table class="utility-table"><thead><tr><th style="width:28%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-font-sans</td><td class="u-css">ui-sans-serif, system-ui, -apple-system, sans-serif</td></tr>
+      <tr><td class="u-cls">kata-font-serif</td><td class="u-css">ui-serif, Georgia, Cambria, serif</td></tr>
+      <tr><td class="u-cls">kata-font-mono</td><td class="u-css">ui-monospace, Cascadia Code, Courier New, monospace</td></tr>
+    </tbody></table>
+    <h2>Font size</h2>
+    <table class="utility-table"><thead><tr><th style="width:28%">Class</th><th style="width:28%">Size</th><th>Line height</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-text-xs</td><td class="u-css">0.75rem</td><td class="u-eg">1rem</td></tr>
+      <tr><td class="u-cls">kata-text-sm</td><td class="u-css">0.875rem</td><td class="u-eg">1.25rem</td></tr>
+      <tr><td class="u-cls">kata-text-base</td><td class="u-css">1rem</td><td class="u-eg">1.5rem</td></tr>
+      <tr><td class="u-cls">kata-text-lg</td><td class="u-css">1.125rem</td><td class="u-eg">1.75rem</td></tr>
+      <tr><td class="u-cls">kata-text-xl</td><td class="u-css">1.25rem</td><td class="u-eg">1.75rem</td></tr>
+      <tr><td class="u-cls">kata-text-2xl</td><td class="u-css">1.5rem</td><td class="u-eg">2rem</td></tr>
+      <tr><td class="u-cls">kata-text-3xl</td><td class="u-css">1.875rem</td><td class="u-eg">2.25rem</td></tr>
+      <tr><td class="u-cls">kata-text-4xl</td><td class="u-css">2.25rem</td><td class="u-eg">2.5rem</td></tr>
+      <tr><td class="u-cls">kata-text-5xl / 6xl</td><td class="u-css">3rem / 3.75rem</td><td class="u-eg">1</td></tr>
+    </tbody></table>
+    <h2>Weight, style &amp; other</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-font-thin / extralight / light / normal / medium / semibold / bold / extrabold / black</td><td class="u-css">font-weight: 100 → 900</td></tr>
+      <tr><td class="u-cls">kata-italic / kata-not-italic</td><td class="u-css">font-style</td></tr>
+      <tr><td class="u-cls">kata-text-left / center / right / justify / start / end</td><td class="u-css">text-align</td></tr>
+      <tr><td class="u-cls">kata-leading-none / tight / snug / normal / relaxed / loose</td><td class="u-css">line-height: 1 → 2</td></tr>
+      <tr><td class="u-cls">kata-tracking-tighter / tight / normal / wide / wider / widest</td><td class="u-css">letter-spacing</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- DECORATION -->
+  <section class="doc-section" id="sec-decoration" data-group="REFERENCE" data-page="TEXT DECORATION">
+    <h1 class="page-title">Text Decoration</h1>
+    <p class="page-desc">Underline, overline, line-through, and decoration style.</p>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-underline / overline / line-through / no-underline</td><td class="u-css">text-decoration-line</td></tr>
+      <tr><td class="u-cls">kata-decoration-solid / dashed / dotted / double / wavy</td><td class="u-css">text-decoration-style</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- BORDERS -->
+  <section class="doc-section" id="sec-borders" data-group="REFERENCE" data-page="BORDERS">
+    <h1 class="page-title">Borders</h1>
+    <p class="page-desc">Border width, style, color, and radius.</p>
+    <h2>Width &amp; style</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-border-0 / border / border-2 / border-4 / border-8</td><td class="u-css">border-width: 0 → 8px</td></tr>
+      <tr><td class="u-cls">kata-border-t / r / b / l</td><td class="u-css">individual side: 1px</td></tr>
+      <tr><td class="u-cls">kata-border-solid / dashed / dotted / double / none</td><td class="u-css">border-style</td></tr>
+    </tbody></table>
+    <h2>Radius</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-rounded-none / sm / md / lg / xl / 2xl / 3xl</td><td class="u-css">0 → 1.5rem</td></tr>
+      <tr><td class="u-cls">kata-rounded-full</td><td class="u-css">border-radius: 9999px</td></tr>
+      <tr><td class="u-cls">kata-rounded-{n}</td><td class="u-css">border-radius: n×0.25rem</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- COLORS -->
+  <section class="doc-section" id="sec-colors" data-group="REFERENCE" data-page="COLORS">
+    <h1 class="page-title">Colors</h1>
+    <p class="page-desc">Every key works as <code>kata-text-*</code>, <code>kata-bg-*</code>, <code>kata-border-*</code>. Click any card to copy.</p>
+    <div class="callout"><strong>Pattern:</strong> &nbsp;<code style="background:transparent;border:none;font-size:0.85em;color:inherit">kata-bg-blue-500</code> &nbsp;·&nbsp; <code style="background:transparent;border:none;font-size:0.85em;color:inherit">kata-text-gray-700</code> &nbsp;·&nbsp; <code style="background:transparent;border:none;font-size:0.85em;color:inherit">kata-border-red-300</code></div>
+    <h2>Standard palette</h2>
+    <div class="color-grid" id="std-color-grid"></div>
+    <h2>Background helpers</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-bg-none</td><td class="u-css">background: none</td></tr>
+      <tr><td class="u-cls">kata-bg-cover / contain</td><td class="u-css">background-size</td></tr>
+      <tr><td class="u-cls">kata-bg-center / top / bottom</td><td class="u-css">background-position</td></tr>
+      <tr><td class="u-cls">kata-bg-no-repeat / repeat</td><td class="u-css">background-repeat</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- MISC -->
+  <section class="doc-section" id="sec-misc" data-group="REFERENCE" data-page="MISC">
+    <h1 class="page-title">Cursor &amp; Visibility</h1>
+    <p class="page-desc">Cursor style and element visibility.</p>
+    <h2>Cursor</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-cursor-auto / default / pointer / wait / text / move / not-allowed / grab</td><td class="u-css">cursor</td></tr>
+    </tbody></table>
+    <h2>Visibility</h2>
+    <table class="utility-table"><thead><tr><th style="width:38%">Class</th><th>CSS</th></tr></thead><tbody>
+      <tr><td class="u-cls">kata-visible / kata-invisible</td><td class="u-css">visibility: visible / hidden</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- CHAICODE -->
+  <section class="doc-section" id="sec-chaicode" data-group="CHAICODE" data-page="CHAI THEMING">
+    <h1 class="page-title">Chai Theming</h1>
+    <p class="page-desc">Colors matched to real chai and tea varieties from across the world. A ChaiCode cohort original.</p>
+    <div class="ed-div">Chai</div>
+    <div class="chai-wrap">
+      <div class="chai-hdr">
+        <div class="chai-tag">ChaiCode Exclusive</div>
+        <h3>Chai <span>Scheme</span></h3>
+        <p>Built for the <a href="https://chaicode.com" target="_blank">ChaiCode community</a> — KataCSS originals.</p>
+      </div>
+      <div class="chai-body">
+        <div class="chai-note"><strong>Prefix:</strong> &nbsp;<code style="background:transparent;border:none;color:#8b4a2e">kata-bg-kata-chai-masala</code> &nbsp;·&nbsp; <code style="background:transparent;border:none;color:#8b4a2e">kata-text-kata-chai-earl-grey</code></div>
+        <div id="chai-color-groups"></div>
+      </div>
+    </div>
+    <div class="code-block">
+      <div class="cb-bar"><div class="cb-dots"><div class="cb-dot"></div><div class="cb-dot"></div><div class="cb-dot"></div></div><span class="cb-lang">html</span><button class="cb-copy" onclick="copyCode(this)">copy</button></div>
+      <pre><span class="t-p">&lt;div</span> <span class="t-n">class</span>=<span class="t-s">"kata-bg-kata-chai-masala kata-p-6 kata-rounded-lg"</span><span class="t-p">&gt;</span>
+  <span class="t-p">&lt;h2</span> <span class="t-n">class</span>=<span class="t-s">"kata-text-kata-chai-foam kata-text-xl kata-font-bold"</span><span class="t-p">&gt;</span>Masala<span class="t-p">&lt;/h2&gt;</span>
+<span class="t-p">&lt;/div&gt;</span>
+<span class="t-p">&lt;span</span> <span class="t-n">class</span>=<span class="t-s">"kata-bg-kata-chai-matcha kata-text-white kata-px-4 kata-py-1 kata-rounded-full"</span><span class="t-p">&gt;</span>
+  Matcha
+<span class="t-p">&lt;/span&gt;</span></pre>
+    </div>
+  </section>
+
+  <!-- PLAYGROUND -->
+  <section class="doc-section" id="sec-playground" data-group="TOOLS" data-page="PLAYGROUND">
+    <h1 class="page-title">Playground</h1>
+    <p class="page-desc">Write HTML on the left, preview on the right. <code>Cmd+Enter</code> to run.</p>
+    <div class="playground">
+      <div class="pg-bar"><span class="pg-title">live preview</span><button class="pg-run" onclick="runPG()">▶ RUN</button></div>
+      <div class="pg-panes">
+        <div><div class="pane-lbl">input</div>
+          <textarea id="pg-input" spellcheck="false">&lt;div style="padding:20px;font-family:'Helvetica Neue',sans-serif;background:#f3ead6;min-height:100%"&gt;
+  &lt;h2 style="font-size:22px;font-weight:900;letter-spacing:-0.04em;color:#10100e;margin-bottom:14px"&gt;KataCSS&lt;/h2&gt;
+  &lt;div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"&gt;
+    &lt;span style="background:#4A7C59;color:#f3ead6;padding:3px 12px;font-size:11px;font-family:monospace"&gt;kata-chai-matcha&lt;/span&gt;
+    &lt;span style="background:#8B4A2E;color:#f3ead6;padding:3px 12px;font-size:11px;font-family:monospace"&gt;kata-chai-masala&lt;/span&gt;
+    &lt;span style="background:#6B5B8A;color:#f3ead6;padding:3px 12px;font-size:11px;font-family:monospace"&gt;kata-chai-earl-grey&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;p style="font-size:13px;color:#6b6b5e;line-height:1.6;border-left:3px solid #d94f3d;padding-left:12px"&gt;
+    Write kata-* classes here and click Run.
+  &lt;/p&gt;
+&lt;/div&gt;</textarea>
+        </div>
+        <div><div class="pane-lbl">preview</div><div id="pg-preview"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTELLISENSE -->
+  <section class="doc-section" id="sec-intellisense" data-group="TOOLS" data-page="INTELLISENSE">
+    <h1 class="page-title">IntelliSense</h1>
+    <p class="page-desc">VS Code extension for <code>kata-*</code> autocomplete and hover documentation.</p>
+    <div class="callout olive"><strong style="color:var(--olive)">Draft</strong> — extension available locally, marketplace publish in progress.</div>
+    <h2>Install locally</h2>
+    <div class="code-block">
+      <div class="cb-bar"><div class="cb-dots"><div class="cb-dot"></div><div class="cb-dot"></div><div class="cb-dot"></div></div><span class="cb-lang">bash</span><button class="cb-copy" onclick="copyCode(this)">copy</button></div>
+      <pre><span class="t-c"># clone the extension repo</span>
+git clone https://github.com/YOUR_USERNAME/kata-css-intellisense
+cd kata-css-intellisense
+
+<span class="t-c"># press F5 in VS Code → Extension Development Host opens</span>
+<span class="t-c"># open any HTML file and type class="kata- to see suggestions</span></pre>
+    </div>
+    <h2>Features</h2>
+    <table class="utility-table"><thead><tr><th style="width:22%">Feature</th><th>Details</th></tr></thead><tbody>
+      <tr><td class="u-cls" style="color:var(--ink);font-weight:500">Autocomplete</td><td class="u-css">Triggers inside class="" and className="" — shows all kata-* with resolved CSS</td></tr>
+      <tr><td class="u-cls" style="color:var(--ink);font-weight:500">Hover</td><td class="u-css">Hover any kata-* class to see its CSS value and hex color</td></tr>
+      <tr><td class="u-cls" style="color:var(--ink);font-weight:500">Languages</td><td class="u-css">HTML, JS, JSX, TS, TSX, Vue, Svelte, PHP, ERB, Handlebars</td></tr>
+      <tr><td class="u-cls" style="color:var(--ink);font-weight:500">Zero deps</td><td class="u-css">classMap fully inlined — no node_modules needed in the extension</td></tr>
+    </tbody></table>
+  </section>
+
+  </div><!-- /content-scroll -->
+</main>
+</div><!-- /layout-grid -->
+
+<script>
+/* TOAST */
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800);}
+function copyChip(key){navigator.clipboard.writeText('kata-bg-'+key);toast('copied: kata-bg-'+key);}
+function copyCdn(btn){navigator.clipboard.writeText(document.getElementById('cdn-code').textContent);btn.textContent='DONE!';btn.classList.add('done');setTimeout(()=>{btn.textContent='COPY';btn.classList.remove('done');},1800);}
+function copyCode(btn){const pre=btn.closest('.code-block').querySelector('pre');navigator.clipboard.writeText(pre.innerText);btn.textContent='done!';setTimeout(()=>btn.textContent='copy',1800);}
+
+/* NAV — red highlight shifts to clicked link */
+let isScrollingFromClick = false;
+let scrollTimer = null;
+
+function navTo(el) {
+  // lock observer so it doesn't fire during the programmatic scroll
+  isScrollingFromClick = true;
+  clearTimeout(scrollTimer);
+
+  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('bc-group').textContent = el.dataset.group;
+  document.getElementById('bc-page').textContent = el.dataset.page;
+
+  const sec = document.getElementById(el.dataset.target);
+  if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // re-enable observer once scroll settles (~800ms is enough for smooth scroll)
+  scrollTimer = setTimeout(() => { isScrollingFromClick = false; }, 900);
+}
+
+/* SCROLL OBSERVER — highlight updates on scroll (disabled during click-nav) */
+const sections = document.querySelectorAll('.doc-section');
+const obs = new IntersectionObserver(entries => {
+  if (isScrollingFromClick) return; // ignore during programmatic scroll
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[data-target="${id}"]`);
+      if (link) link.classList.add('active');
+      document.getElementById('bc-group').textContent = e.target.dataset.group;
+      document.getElementById('bc-page').textContent = e.target.dataset.page;
+    }
+  });
+}, { rootMargin: '-20% 0px -65% 0px', threshold: 0 });
+sections.forEach(s => obs.observe(s));
+
+/* PLAYGROUND */
+function runPG(){document.getElementById('pg-preview').innerHTML=document.getElementById('pg-input').value;}
+runPG();
+document.getElementById('pg-input').addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='Enter')runPG();});
+
+/* COLOR DATA */
+function lum(h){return parseInt(h.slice(1,3),16)*0.299+parseInt(h.slice(3,5),16)*0.587+parseInt(h.slice(5,7),16)*0.114;}
+function cc(key,hex,name,origin){
+  const tc=lum(hex)>155?'#10100e':'#f0ede4';
+  const sh=key.replace('kata-chai-','').replace(/^(kata-)/,'');
+  return `<div class="color-card" onclick="copyChip('${key}')"><div class="cc-sw" style="background:${hex}"><span class="cc-key" style="color:${tc}">${sh}</span></div><div class="cc-info"><div class="cc-name">${name}</div><div class="cc-hex">${hex}</div><div class="cc-origin">${origin}</div></div></div>`;
+}
+
+const stdColors=[
+  {key:'black',hex:'#000000',name:'Black',origin:''},{key:'white',hex:'#ffffff',name:'White',origin:''},
+  {key:'gray-100',hex:'#f3f4f6',name:'Gray 100',origin:''},{key:'gray-300',hex:'#d1d5db',name:'Gray 300',origin:''},
+  {key:'gray-500',hex:'#6b7280',name:'Gray 500',origin:''},{key:'gray-700',hex:'#374151',name:'Gray 700',origin:''},
+  {key:'gray-900',hex:'#111827',name:'Gray 900',origin:''},{key:'red-500',hex:'#ef4444',name:'Red 500',origin:''},
+  {key:'red-700',hex:'#b91c1c',name:'Red 700',origin:''},{key:'orange-500',hex:'#f97316',name:'Orange 500',origin:''},
+  {key:'yellow-500',hex:'#eab308',name:'Yellow 500',origin:''},{key:'green-500',hex:'#22c55e',name:'Green 500',origin:''},
+  {key:'green-700',hex:'#15803d',name:'Green 700',origin:''},{key:'teal-500',hex:'#14b8a6',name:'Teal 500',origin:''},
+  {key:'blue-300',hex:'#93c5fd',name:'Blue 300',origin:''},{key:'blue-500',hex:'#3b82f6',name:'Blue 500',origin:''},
+  {key:'blue-700',hex:'#1d4ed8',name:'Blue 700',origin:''},{key:'indigo-500',hex:'#6366f1',name:'Indigo 500',origin:''},
+  {key:'purple-500',hex:'#a855f7',name:'Purple 500',origin:''},{key:'pink-500',hex:'#ec4899',name:'Pink 500',origin:''},
+];
+document.getElementById('std-color-grid').innerHTML = stdColors.map(c=>cc(c.key,c.hex,c.name,c.origin)).join('');
+
+const chaiGroups=[
+  {label:'Indian subcontinent',colors:[
+    {key:'kata-chai-masala',hex:'#8B4A2E',name:'Masala chai',origin:'Classic spiced milk tea — deep reddish-brown'},
+    {key:'kata-chai-karak',hex:'#C27B3E',name:'Karak chai',origin:'Gulf-style strong chai — amber-caramel'},
+    {key:'kata-chai-kashmiri',hex:'#D4697A',name:'Kashmiri chai',origin:'Pink salt tea — dusty rose'},
+    {key:'kata-chai-noon',hex:'#B85C6E',name:'Noon chai',origin:'Bolder Kashmiri variant — deeper rose with a creamy blush'},
+    {key:'kata-chai-ginger',hex:'#A0522D',name:'Ginger chai',origin:'Ginger-forward brew — warm sienna'},
+    {key:'kata-chai-cardamom',hex:'#BFA07A',name:'Cardamom chai',origin:'Aromatic cardamom chai — pale tan'},
+    {key:'kata-chai-elaichi',hex:'#E8C99A',name:'Elaichi milk',origin:'Heavy milk chai — creamy beige'},
+    {key:'kata-chai-black',hex:'#3B2314',name:'Black chai',origin:'Unsweetened black tea — dark espresso'},
+    {key:'kata-chai-saffron',hex:'#E8A020',name:'Saffron chai',origin:'Saffron-infused chai — vivid golden orange'},
+    {key:'kata-chai-tulsi',hex:'#5C8A5A',name:'Tulsi chai',origin:'Holy basil tea — forest green'},
+    {key:'kata-chai-foam',hex:'#F2E8DC',name:'Chai foam',origin:'Noon chai foam topping — warm off-white'},
+  ]},
+  {label:'Japanese greens',colors:[
+    {key:'kata-chai-matcha',hex:'#4A7C59',name:'Matcha',origin:'Classic matcha — vivid forest green'},
+    {key:'kata-chai-matcha-latte',hex:'#7DAB7A',name:'Matcha latte',origin:'Matcha with milk — softer sage green'},
+    {key:'kata-chai-matcha-ceremonial',hex:'#2D5E3A',name:'Ceremonial matcha',origin:'High-grade ceremonial — deep rich green'},
+    {key:'kata-chai-sencha',hex:'#6B8F47',name:'Sencha',origin:'Sencha — lighter yellow-green'},
+    {key:'kata-chai-hojicha',hex:'#8B6347',name:'Hojicha',origin:'Roasted green tea — warm chestnut'},
+    {key:'kata-chai-genmaicha',hex:'#A8935A',name:'Genmaicha',origin:'Green tea + roasted rice — toasty gold'},
+    {key:'kata-chai-gyokuro',hex:'#3D6B40',name:'Gyokuro',origin:'Shade-grown — deep mossy green'},
+  ]},
+  {label:'Oolong',colors:[
+    {key:'kata-chai-oolong-light',hex:'#C9B87A',name:'Oolong light',origin:'Lightly oxidised oolong — pale amber gold'},
+    {key:'kata-chai-oolong-dark',hex:'#8B5E3C',name:'Oolong dark',origin:'Heavily oxidised oolong — warm brown'},
+    {key:'kata-chai-dahongpao',hex:'#7A3E28',name:'Da Hong Pao',origin:'Wuyi rock oolong — deep reddish-brown'},
+    {key:'kata-chai-dongding',hex:'#B8895A',name:'Dong Ding',origin:'Taiwanese oolong — medium amber'},
+    {key:'kata-chai-milk-oolong',hex:'#D4C49A',name:'Milk oolong',origin:'Jin xuan milk oolong — creamy buff'},
+  ]},
+  {label:'Chinese teas',colors:[
+    {key:'kata-chai-longjing',hex:'#8CAF6A',name:'Longjing',origin:'Dragon well — fresh yellow-green'},
+    {key:'kata-chai-tieguanyin',hex:'#C4A96B',name:'Tie Guan Yin',origin:'Iron goddess oolong — golden amber'},
+    {key:'kata-chai-puerh',hex:'#6B3A2A',name:'Pu-erh',origin:'Aged pu-erh — dark earthy brown'},
+    {key:'kata-chai-baimudan',hex:'#E8D5B0',name:'White Peony',origin:'White peony — pale warm straw'},
+    {key:'kata-chai-yinzhen',hex:'#F0E6C8',name:'Silver Needle',origin:'Silver needle — very pale cream'},
+    {key:'kata-chai-chrysanthemum',hex:'#F5D78E',name:'Chrysanthemum',origin:'Chrysanthemum flower tea — pale yellow'},
+  ]},
+  {label:'South Asian',colors:[
+    {key:'kata-chai-assam',hex:'#7B3F1E',name:'Assam',origin:'Assam CTC — deep malty brown'},
+    {key:'kata-chai-darjeeling',hex:'#C4875A',name:'Darjeeling',origin:'Darjeeling first flush — copper-amber'},
+    {key:'kata-chai-nilgiri',hex:'#9B5C38',name:'Nilgiri',origin:'Nilgiri — medium warm brown'},
+    {key:'kata-chai-ceylon',hex:'#A0522D',name:'Ceylon black',origin:'Ceylon black — classic sienna'},
+  ]},
+  {label:'African',colors:[
+    {key:'kata-chai-kenya',hex:'#8B3A2A',name:'Kenyan black',origin:'Kenyan black — bold deep red-brown'},
+    {key:'kata-chai-rooibos',hex:'#C1440E',name:'Rooibos',origin:'Rooibos — vivid burnt orange-red'},
+    {key:'kata-chai-rooibos-latte',hex:'#D4845A',name:'Rooibos latte',origin:'Rooibos with milk — softened terracotta'},
+  ]},
+  {label:'Western & Herbal',colors:[
+    {key:'kata-chai-earl-grey',hex:'#6B5B8A',name:'Earl Grey',origin:'Earl grey (bergamot) — lavender-purple'},
+    {key:'kata-chai-english-breakfast',hex:'#7A3B28',name:'English Breakfast',origin:'English breakfast — rich dark brown'},
+    {key:'kata-chai-chamomile',hex:'#F0C96A',name:'Chamomile',origin:'Chamomile — warm golden yellow'},
+    {key:'kata-chai-peppermint',hex:'#4A8F6A',name:'Peppermint',origin:'Peppermint — cool mid-green'},
+    {key:'kata-chai-hibiscus',hex:'#C4204A',name:'Hibiscus',origin:'Hibiscus — vivid magenta-red'},
+    {key:'kata-chai-lavender',hex:'#9B7EC8',name:'Lavender',origin:'Lavender — soft purple'},
+    {key:'kata-chai-lemon-verbena',hex:'#D4C84A',name:'Lemon verbena',origin:'Lemon verbena — acid yellow-green'},
+    {key:'kata-chai-rosehip',hex:'#E8603A',name:'Rose hip',origin:'Rose hip — bright orange-red'},
+  ]},
+  {label:'Middle Eastern',colors:[
+    {key:'kata-chai-moroccan-mint',hex:'#3A8A5A',name:'Moroccan mint',origin:'Moroccan mint green tea — vivid green'},
+    {key:'kata-chai-gunpowder',hex:'#6B7A3A',name:'Gunpowder green',origin:'Gunpowder green — muted olive'},
+    {key:'kata-chai-irani',hex:'#C27040',name:'Irani chai',origin:'Irani chai — amber-orange'},
+    {key:'kata-chai-samovar',hex:'#8B3D28',name:'Samovar chai',origin:'Samovar-brewed — deep red-brown'},
+    {key:'kata-chai-saffron-persian',hex:'#D4A020',name:'Persian saffron',origin:'Persian saffron tea — golden amber'},
+  ]},
+  {label:'South American',colors:[
+    {key:'kata-chai-yerba-mate',hex:'#5A7A3A',name:'Yerba mate',origin:'Yerba mate — medium grassy green'},
+    {key:'kata-chai-mate-amargo',hex:'#3A5A28',name:'Mate amargo',origin:'Bitter mate — deep forest green'},
+    {key:'kata-chai-muna',hex:'#7A9A5A',name:'Muña muña',origin:'Muña muña Peru — light herbal green'},
+    {key:'kata-chai-cascara',hex:'#9B4A3A',name:'Cascara',origin:'Cascara coffee cherry tea — rusty red-brown'},
+  ]},
+];
+
+const cgEl=document.getElementById('chai-color-groups');
+chaiGroups.forEach(g=>{
+  cgEl.innerHTML+=`<div class="pg-group"><span class="pg-lbl">${g.label}</span><div class="color-grid">${g.colors.map(c=>cc(c.key,c.hex,c.name,c.origin)).join('')}</div></div>`;
+});
+</script>
+</body>
+</html>
